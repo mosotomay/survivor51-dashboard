@@ -3,6 +3,10 @@ import type { Castaway, Friend, LeagueData, ScoringEvent } from "./types";
 
 export const data = raw as LeagueData;
 
+/** Finale placement rule ids; must match scripts/league-checks.mjs. */
+const WINNER_RULE = "winner";
+const FINALE_RULE_IDS = ["place-3rd", "place-2nd", WINNER_RULE];
+
 /** Prefixes a public file path with the site's base path (set when hosted under a subfolder). */
 export const asset = (path: string) => (process.env.NEXT_PUBLIC_BASE_PATH || "") + path;
 
@@ -72,8 +76,13 @@ export function buildModel(d: LeagueData = data) {
     .map((f) => {
       const fc = cast.filter((c) => c.draftedBy === f.id).sort((a, b) => a.pick - b.pick);
       const epPts: Record<number, number> = {};
-      posted.forEach((e) => (epPts[e] = fc.reduce((s, c) => s + c.epPts[e], 0)));
-      return { ...f, cast: fc, epPts, total: fc.reduce((s, c) => s + c.total, 0), rank: 0, tied: false, move: null };
+      posted.forEach((e) => {
+        // League rule: +MVP bonus when the friend's MVP (first pick) wins the season.
+        const mvpWon = fc.some((c) => c.mvp && c.events[e].some((x) => x.ruleId === WINNER_RULE));
+        epPts[e] = fc.reduce((s, c) => s + c.epPts[e], 0) + (mvpWon ? d.rules.finale.mvpBonus : 0);
+      });
+      const total = posted.reduce((s, e) => s + epPts[e], 0);
+      return { ...f, cast: fc, epPts, total, rank: 0, tied: false, move: null };
     });
 
   const cur = rankBy(friends, (f) => f.total);
@@ -99,6 +108,7 @@ export function buildModel(d: LeagueData = data) {
     [d.rules.survival.id]: { label: "Survive the week", points: d.rules.survival.preMerge },
   };
   d.rules.tiers.forEach((t) => t.rules.forEach((r) => (ruleIndex[r.id] = { label: r.label, points: t.points })));
+  FINALE_RULE_IDS.forEach((id) => (ruleIndex[id] = { label: "Finale", points: 0 }));
 
   return {
     data: d,
@@ -119,6 +129,7 @@ export type Model = ReturnType<typeof buildModel>;
 
 /** Where an event chip deep-links in the Rules sheet: the rule itself, else its tier header. */
 export function ruleTarget(m: Model, ev: ScoringEvent) {
+  if (FINALE_RULE_IDS.includes(ev.ruleId)) return "finale";
   if (m.ruleIndex[ev.ruleId]) return ev.ruleId;
   return "tier-" + (ev.points >= 15 ? 15 : ev.points >= 10 ? 10 : 5);
 }

@@ -1,0 +1,54 @@
+# Pulls new fantasy scores from Global TV and republishes the site.
+#
+# Schedule (Eastern time; GitHub cron is UTC, so times shift by an hour in winter):
+#   Thu ~9 am          mark the next episode "results not posted yet"
+#   Thu 5 pm-Fri noon  every 2 hours, look for new "EPISODE N POINTS" results
+#   Fri 11 am          if results still haven't appeared, fail so GitHub emails the owner
+# Any failure (bad read, totals don't add up, unknown name) also emails the owner, and the
+# live site keeps last week's data.
+name: Update scores
+
+on:
+  schedule:
+    - cron: "0 13 * * 4"
+    - cron: "0 21,23 * * 4"
+    - cron: "0 1,3,5,7,9,11,13,15,16 * * 5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: update-scores
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.run.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - id: run
+        run: node scripts/update-scores.mjs
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      - if: steps.run.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898900+github-actions[bot]@users.noreply.github.com"
+          git add data/league.json
+          git commit -m "${{ steps.run.outputs.summary }}"
+          git push
+
+  deploy:
+    needs: update
+    if: needs.update.outputs.changed == 'true'
+    uses: ./.github/workflows/deploy.yml

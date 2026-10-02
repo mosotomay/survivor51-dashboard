@@ -94,7 +94,7 @@ export default function RulesSheet({ rule, onClose }: { rule: string | null; onC
           );
         })}
 
-        <section>
+        <section data-rule="finale" className="rounded-2xl" style={{ ...ring("finale"), outlineOffset: 6 }}>
           <h3 className={sectionLabel}>Finale</h3>
           <div className="grid grid-cols-3 gap-2">
             {[
