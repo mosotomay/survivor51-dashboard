@@ -13,6 +13,8 @@
 //
 // Flags (for testing):
 //   --dry-run              print the merged episode, don't write league.json
+//   --recheck N            re-read already-posted episode N from the page and compare it with
+//                          the stored data (never writes; a self-test for the API key and reading)
 //   --episode N --image U  process a specific episode image (URL or local path)
 //   --now ISO              pretend the current time is ISO (for schedule logic)
 // Env: ANTHROPIC_API_KEY (required unless MOCK_EXTRACTION points at a JSON fixture)
@@ -38,7 +40,8 @@ const flag = (name) => {
   const i = args.indexOf(name);
   return i >= 0 ? args[i + 1] : undefined;
 };
-const DRY_RUN = args.includes("--dry-run");
+const RECHECK = flag("--recheck") ? Number(flag("--recheck")) : null;
+const DRY_RUN = args.includes("--dry-run") || RECHECK != null;
 const NOW = flag("--now") ? new Date(flag("--now")) : new Date();
 
 function setOutput(key, value) {
@@ -251,15 +254,30 @@ async function main() {
   } else {
     const r = await fetch(PAGE_URL, { headers: { "user-agent": UA } });
     if (!r.ok) throw new Error(`Fantasy page fetch failed (${r.status})`);
-    found = findResults(await r.text()).filter((f) => !posted.has(f.episode)).sort((a, b) => a.episode - b.episode);
+    const all = findResults(await r.text());
+    found = RECHECK != null ? all.filter((f) => f.episode === RECHECK) : all.filter((f) => !posted.has(f.episode));
+    found.sort((a, b) => a.episode - b.episode);
+    if (RECHECK != null && !found.length) throw new Error(`Episode ${RECHECK} results not found on ${PAGE_URL}`);
   }
 
   let changed = false;
   for (const f of found) {
-    if (posted.has(f.episode) && !flag("--image")) continue;
+    if (posted.has(f.episode) && !flag("--image") && RECHECK == null) continue;
     console.log(`Episode ${f.episode}: reading ${f.image}`);
     const extraction = await extractWithClaude(d, f.episode, await loadImage(f.image));
     const { episode, leftGame } = buildEpisode(d, f, extraction);
+
+    if (RECHECK != null) {
+      const key = (e) => `${e.castawayId}|${e.ruleId}|${e.points}`;
+      const stored = (d.episodes.find((e) => e.number === f.episode)?.events ?? []).map(key).sort();
+      const read = episode.events.map(key).sort();
+      const missing = stored.filter((k, i, a) => a.slice(0, i + 1).filter((x) => x === k).length > read.filter((x) => x === k).length);
+      const extra = read.filter((k, i, a) => a.slice(0, i + 1).filter((x) => x === k).length > stored.filter((x) => x === k).length);
+      if (missing.length || extra.length)
+        throw new Error(`Recheck of Episode ${f.episode} differs from stored data.\nMissing: ${missing.join(", ") || "none"}\nExtra: ${extra.join(", ") || "none"}`);
+      console.log(`Recheck OK: Claude's reading of Episode ${f.episode} matches the stored data (${read.length} events).`);
+      continue;
+    }
 
     d.episodes = d.episodes.filter((e) => e.number !== f.episode).concat(episode).sort((a, b) => a.number - b.number);
     d.league.postedEpisodes = [...new Set([...d.league.postedEpisodes, f.episode])].sort((a, b) => a - b);
@@ -272,6 +290,8 @@ async function main() {
     changed = true;
     console.log(`Episode ${f.episode}: ${episode.events.length} events, ${Object.keys(episode.statedTotals).length} castaways` + (leftGame.length ? `, left the game: ${leftGame.join(", ")}` : ""));
   }
+
+  if (RECHECK != null) return;
 
   const now = easternParts(NOW);
   if (!changed) {
