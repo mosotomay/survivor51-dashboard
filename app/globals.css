@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+/* Night tribal (default) */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #15120f;
+  --s1: #1e1a15;
+  --s2: #2b251d;
+  --ink: #f4ede3;
+  --mut: #b5a894;
+  --line: rgba(244, 237, 227, 0.1);
+  --tex: rgba(245, 165, 36, 0.06);
+  --ambT: #f5ad3a;
+  --embT: #ff8a50;
+  --junT: #7fcf98;
+  --fire: linear-gradient(135deg, #f7b733, #f0642a);
+  --firesoft: rgba(245, 150, 40, 0.13);
+  --scrim: rgba(8, 6, 4, 0.62);
+}
+
+/* Sun-bleached sand */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #efe6d6;
+  --s1: #faf6ee;
+  --s2: #e6dac5;
+  --ink: #22190f;
+  --mut: #5c4f40;
+  --line: rgba(34, 25, 15, 0.13);
+  --tex: rgba(140, 90, 30, 0.08);
+  --ambT: #8d5200;
+  --embT: #b23d0c;
+  --junT: #2a6a43;
+  --fire: linear-gradient(135deg, #f2a52a, #e8622a);
+  --firesoft: rgba(230, 130, 30, 0.15);
+  --scrim: rgba(40, 28, 14, 0.45);
+}
+
+@theme inline {
+  --breakpoint-wide: 900px;
+  --color-bg: var(--bg);
+  --color-s1: var(--s1);
+  --color-s2: var(--s2);
+  --color-ink: var(--ink);
+  --color-mut: var(--mut);
+  --color-line: var(--line);
+  --color-amb: var(--ambT);
+  --color-emb: var(--embT);
+  --color-jun: var(--junT);
+  --color-onfire: #1d1206;
+  --font-sans: var(--font-dm), system-ui, sans-serif;
+  --font-display: var(--font-barlow), sans-serif;
+}
+
+@utility disp {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+}
+
+@utility bg-fire {
+  background: var(--fire);
+}
+
+@utility woven {
+  background-image:
+    repeating-linear-gradient(45deg, var(--tex) 0 1px, transparent 1px 8px),
+    repeating-linear-gradient(-45deg, var(--tex) 0 1px, transparent 1px 8px);
+}
+
+@utility tile-stripes {
+  background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0 2px, transparent 2px 9px);
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer base {
+  html,
+  body {
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  a {
+    color: var(--ambT);
+  }
+  a:hover {
+    color: var(--embT);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ambT);
+    outline-offset: 2px;
+  }
+}
+
+@utility sheet-in-up {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: sheet-up 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+}
+@utility sheet-in-left {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: sheet-left 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+}
+@keyframes sheet-up {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+}
+@keyframes sheet-left {
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+}

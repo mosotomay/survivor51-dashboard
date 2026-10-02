@@ -1,0 +1,170 @@
+{
+  "league": {
+    "name": "Survivor 51 Fantasy League",
+    "updatedLabel": "Updated through Episode 2 · Thu Oct 1",
+    "postedEpisodes": [1, 2],
+    "pendingEpisode": null,
+    "merged": false,
+    "decisions": [
+      "Each event counts once per castaway per week.",
+      "MVP = each friend's first draft pick.",
+      "No merge picks or swaps; teams stay at 3 castaways.",
+      "No tiebreakers; tied friends share a rank."
+    ]
+  },
+  "friends": [
+    { "id": "taylor", "name": "Taylor", "hue": 25, "draftOrder": 1 },
+    { "id": "clarissa", "name": "Clarissa", "hue": 300, "draftOrder": 2 },
+    { "id": "marley", "name": "Marley", "hue": 240, "draftOrder": 3 },
+    { "id": "alex", "name": "Alex", "hue": 140, "draftOrder": 4 },
+    { "id": "jill", "name": "Jill", "hue": 355, "draftOrder": 5 },
+    { "id": "cody", "name": "Cody", "hue": 90, "draftOrder": 6 },
+    { "id": "mauricio", "name": "Mauricio", "hue": 190, "draftOrder": 7 }
+  ],
+  "castaways": [
+    { "id": "patt", "name": "Patt Cannaday", "short": "Patt Cannaday", "resultsName": "Patt", "tribe": "Toka", "age": 33, "occupation": "Federal prosecutor", "pick": 1, "draftedBy": "taylor", "photoUrl": "/headshots/patt.jpg" },
+    { "id": "thienan", "name": "An “Thien An” Nguyen", "short": "Thien An Nguyen", "resultsName": "An", "tribe": "Toka", "age": 24, "occupation": "Medical student", "pick": 2, "draftedBy": "clarissa", "photoUrl": "/headshots/thienan.jpg" },
+    { "id": "kristin", "name": "Kristin Flickinger", "short": "Kristin Flickinger", "resultsName": "Kristin", "tribe": "Savu", "age": 49, "occupation": "Crisis management", "pick": 3, "draftedBy": "marley", "photoUrl": "/headshots/kristin.jpg" },
+    { "id": "cristian", "name": "Cristian Chavez", "short": "Cristian Chavez", "resultsName": "Cristian", "tribe": "Savu", "age": 26, "occupation": "Head of HR", "pick": 4, "draftedBy": "alex", "photoUrl": "/headshots/cristian.jpg" },
+    { "id": "jelly", "name": "Angelica “Jelly” Loblack", "short": "Jelly Loblack", "resultsName": "Jelly", "tribe": "Toka", "age": 29, "occupation": "Sociology professor", "pick": 5, "draftedBy": "jill", "photoUrl": "/headshots/jelly.jpg" },
+    { "id": "sharonda", "name": "Sharonda Cox", "short": "Sharonda Cox", "resultsName": "Sharonda", "tribe": "Savu", "age": 34, "occupation": "OBGYN resident", "pick": 6, "draftedBy": "cody", "photoUrl": "/headshots/sharonda.jpg" },
+    { "id": "kilby", "name": "Danny “Kilby” Kilby", "short": "Kilby", "resultsName": "Kilby", "tribe": "Toka", "age": 30, "occupation": "Game designer", "pick": 7, "draftedBy": "mauricio", "photoUrl": "/headshots/kilby.jpg" },
+    { "id": "maggie", "name": "Maggie Nestor", "short": "Maggie Nestor", "resultsName": "Maggie", "tribe": "Toka", "age": 40, "occupation": "Farmer", "pick": 8, "draftedBy": "mauricio", "photoUrl": "/headshots/maggie.jpg" },
+    { "id": "mike", "name": "Mike Pinsky", "short": "Mike Pinsky", "resultsName": "Mike", "tribe": "Toka", "age": 32, "occupation": "Baseball executive", "pick": 9, "draftedBy": "cody", "photoUrl": "/headshots/mike.jpg" },
+    { "id": "devin", "name": "Devin Way", "short": "Devin Way", "resultsName": "Devin", "tribe": "Toka", "age": 33, "occupation": "Actor", "pick": 10, "draftedBy": "jill", "photoUrl": "/headshots/devin.jpg" },
+    { "id": "ori", "name": "Ori Jean-Charles", "short": "Ori Jean-Charles", "resultsName": "Ori", "tribe": "Savu", "age": 27, "occupation": "Personal trainer", "pick": 11, "draftedBy": "alex", "photoUrl": "/headshots/ori.jpg" },
+    { "id": "rob", "name": "Rob Antonson", "short": "Rob Antonson", "resultsName": "Rob", "tribe": "Savu", "age": 40, "occupation": "Airline gate agent", "pick": 12, "draftedBy": "marley", "photoUrl": "/headshots/rob.jpg" },
+    { "id": "lewis", "name": "Lewis Kelly", "short": "Lewis Kelly", "resultsName": "Lewis", "tribe": "Toka", "age": 28, "occupation": "Farmer", "pick": 13, "draftedBy": "clarissa", "photoUrl": "/headshots/lewis.jpg" },
+    { "id": "brady", "name": "Brady Booker", "short": "Brady Booker", "resultsName": "Brady", "tribe": "Toka", "age": 27, "occupation": "Professional wrestler", "pick": 14, "draftedBy": "taylor", "photoUrl": "/headshots/brady.jpg" },
+    { "id": "carter", "name": "Carter Krull", "short": "Carter Krull", "resultsName": "Carter", "tribe": "Savu", "age": 24, "occupation": "Livestock farmer", "pick": 15, "draftedBy": "taylor", "photoUrl": "/headshots/carter.jpg" },
+    { "id": "alexis", "name": "Alexis Levine", "short": "Alexis Levine", "resultsName": "Alexis", "tribe": "Savu", "age": 34, "occupation": "Criminal defense attorney", "pick": 16, "draftedBy": "clarissa", "photoUrl": "/headshots/alexis.jpg" },
+    { "id": "linnea", "name": "Linnea Capobianco", "short": "Linnea Capobianco", "resultsName": "Linnea", "tribe": "Savu", "age": 25, "occupation": "Entrepreneur", "pick": 17, "draftedBy": "marley", "photoUrl": "/headshots/linnea.jpg" },
+    { "id": "jenna", "name": "Jenna Doore", "short": "Jenna Doore", "resultsName": "Jenna", "tribe": "Toka", "age": 30, "occupation": "Wedding photographer", "pick": 18, "draftedBy": "alex", "photoUrl": "/headshots/jenna.jpg" },
+    { "id": "aaliyah", "name": "Aaliyah Puglia", "short": "Aaliyah Puglia", "resultsName": "Aaliyah", "tribe": "Toka", "age": 24, "occupation": "Chef", "pick": 19, "draftedBy": "jill", "votedOutEp": 1, "photoUrl": "/headshots/aaliyah.jpg" },
+    { "id": "eric", "name": "Eric Macksoud", "short": "Eric Macksoud", "resultsName": "Eric", "tribe": "Savu", "age": 34, "occupation": "Mental health counselor", "pick": 20, "draftedBy": "cody", "photoUrl": "/headshots/eric.jpg" },
+    { "id": "ana", "name": "Ana Sani", "short": "Ana Sani", "resultsName": "Ana", "tribe": "Savu", "age": 34, "occupation": "Voice actress", "pick": 21, "draftedBy": "mauricio", "votedOutEp": 2, "photoUrl": "/headshots/ana.jpg" }
+  ],
+  "rules": {
+    "survival": { "id": "survived", "preMerge": 1, "postMerge": 3 },
+    "tiers": [
+      {
+        "points": 5,
+        "rules": [
+          { "id": "group-win", "label": "Wins group immunity or reward" },
+          { "id": "chosen-reward", "label": "Chosen for reward" },
+          { "id": "advantage", "label": "Finds / uses an advantage" },
+          { "id": "idol-self", "label": "Plays idol on self" },
+          { "id": "cries", "label": "Cries" },
+          { "id": "curse", "label": "Bleeped curse" },
+          { "id": "i-miss", "label": "Says “I miss…”" },
+          { "id": "kiss", "label": "Kisses a player" },
+          { "id": "argument", "label": "Heated argument" },
+          { "id": "wardrobe", "label": "Blurred wardrobe malfunction" },
+          { "id": "risk-vote", "label": "Risks vote" },
+          { "id": "find-fake-idol", "label": "Finds fake idol" },
+          { "id": "hug-jeff", "label": "Hugs Jeff" },
+          { "id": "fire-tokens", "label": "Buys with fire tokens" }
+        ]
+      },
+      {
+        "points": 10,
+        "rules": [
+          { "id": "ind-reward", "label": "Wins individual reward" },
+          { "id": "find-idol", "label": "Finds idol" },
+          { "id": "out-holding", "label": "Voted out holding idol / advantage" },
+          { "id": "shot-dark", "label": "Plays Shot in the Dark" },
+          { "id": "blindside", "label": "Blindsided" },
+          { "id": "medical", "label": "Medical emergency" },
+          { "id": "quits", "label": "Quits" },
+          { "id": "seafood", "label": "Catches seafood" },
+          { "id": "steals-food", "label": "Steals food" },
+          { "id": "play-fake-idol", "label": "Plays fake idol" },
+          { "id": "search-bag", "label": "Searches a bag" },
+          { "id": "unanimous", "label": "Voted out unanimously" },
+          { "id": "idol-on-them", "label": "Idol played on them" },
+          { "id": "coin-chosen", "label": "Chosen to flip the coin" },
+          { "id": "journey", "label": "Journey / exile" }
+        ]
+      },
+      {
+        "points": 15,
+        "rules": [
+          { "id": "ind-immunity", "label": "Wins individual immunity" },
+          { "id": "shot-safe", "label": "SAFE from Shot in the Dark" },
+          { "id": "fire-making", "label": "Wins fire-making" },
+          { "id": "give-idol", "label": "Gives idol away" },
+          { "id": "make-fake-idol", "label": "Makes fake idol" },
+          { "id": "trick-fake-idol", "label": "Tricks someone into playing it" },
+          { "id": "medevac", "label": "Medevac" },
+          { "id": "returns", "label": "Returns to the game" },
+          { "id": "coin-survives", "label": "Flips the coin and survives" }
+        ]
+      }
+    ],
+    "finale": { "third": 10, "second": 20, "winner": 30, "mvpBonus": 30 }
+  },
+  "episodes": [
+    {
+      "number": 1,
+      "note": "Points start with Episode 2.",
+      "events": []
+    },
+    {
+      "number": 2,
+      "sourceImage": "https://assets.globaltv.com/wp-content/uploads/2026/09/survivor-51-episode-2-points.jpg",
+      "statedTotals": {"alexis": 1, "thienan": 11, "ana": 15, "brady": 36, "carter": 1, "cristian": 11, "devin": 11, "eric": 1, "jelly": 21, "jenna": 11, "kilby": 11, "kristin": 1, "lewis": 11, "linnea": 1, "maggie": 16, "mike": 16, "ori": 1, "patt": 11, "rob": 6, "sharonda": 1},
+      "events": [
+        { "castawayId": "alexis", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "thienan", "ruleId": "group-win", "label": "Won Group Reward", "points": 5 },
+        { "castawayId": "thienan", "ruleId": "group-win", "label": "Won Group Immunity", "points": 5 },
+        { "castawayId": "thienan", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "ana", "ruleId": "curse", "label": "Said a Curse Word", "points": 5 },
+        { "castawayId": "ana", "ruleId": "blindside", "label": "Torch Snuffed Due to Blindside", "points": 10 },
+        { "castawayId": "brady", "ruleId": "group-win", "label": "Won Group Reward", "points": 5 },
+        { "castawayId": "brady", "ruleId": "group-win", "label": "Won Group Immunity", "points": 5 },
+        { "castawayId": "brady", "ruleId": "medical", "label": "Treated for a Medical Emergency", "points": 10 },
+        { "castawayId": "brady", "ruleId": "curse", "label": "Said a Curse Word", "points": 5 },
+        { "castawayId": "brady", "ruleId": "cries", "label": "Cried on Camera", "points": 5 },
+        { "castawayId": "brady", "ruleId": "kiss", "label": "Kissed Another Player", "points": 5 },
+        { "castawayId": "brady", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "carter", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "cristian", "ruleId": "seafood", "label": "Caught Seafood", "points": 10 },
+        { "castawayId": "cristian", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "devin", "ruleId": "group-win", "label": "Won Group Reward", "points": 5 },
+        { "castawayId": "devin", "ruleId": "group-win", "label": "Won Group Immunity", "points": 5 },
+        { "castawayId": "devin", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "eric", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "jelly", "ruleId": "group-win", "label": "Won Group Reward", "points": 5 },
+        { "castawayId": "jelly", "ruleId": "group-win", "label": "Won Group Immunity", "points": 5 },
+        { "castawayId": "jelly", "ruleId": "find-idol", "label": "Found an Idol", "points": 10 },
+        { "castawayId": "jelly", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "jenna", "ruleId": "group-win", "label": "Won Group Reward", "points": 5 },
+        { "castawayId": "jenna", "ruleId": "group-win", "label": "Won Group Immunity", "points": 5 },
+        { "castawayId": "jenna", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "kilby", "ruleId": "group-win", "label": "Won Group Reward", "points": 5 },
+        { "castawayId": "kilby", "ruleId": "group-win", "label": "Won Group Immunity", "points": 5 },
+        { "castawayId": "kilby", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "kristin", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "lewis", "ruleId": "group-win", "label": "Won Group Reward", "points": 5 },
+        { "castawayId": "lewis", "ruleId": "group-win", "label": "Won Group Immunity", "points": 5 },
+        { "castawayId": "lewis", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "linnea", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "maggie", "ruleId": "group-win", "label": "Won Group Reward", "points": 5 },
+        { "castawayId": "maggie", "ruleId": "group-win", "label": "Won Group Immunity", "points": 5 },
+        { "castawayId": "maggie", "ruleId": "curse", "label": "Said a Curse Word", "points": 5 },
+        { "castawayId": "maggie", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "mike", "ruleId": "group-win", "label": "Won Group Reward", "points": 5 },
+        { "castawayId": "mike", "ruleId": "group-win", "label": "Won Group Immunity", "points": 5 },
+        { "castawayId": "mike", "ruleId": "curse", "label": "Said a Curse Word", "points": 5 },
+        { "castawayId": "mike", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "ori", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "patt", "ruleId": "group-win", "label": "Won Group Reward", "points": 5 },
+        { "castawayId": "patt", "ruleId": "group-win", "label": "Won Group Immunity", "points": 5 },
+        { "castawayId": "patt", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "rob", "ruleId": "curse", "label": "Said a Curse Word", "points": 5 },
+        { "castawayId": "rob", "ruleId": "survived", "label": "Survived the Week", "points": 1 },
+        { "castawayId": "sharonda", "ruleId": "survived", "label": "Survived the Week", "points": 1 }
+      ]
+    }
+  ]
+}
