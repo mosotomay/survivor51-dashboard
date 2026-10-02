@@ -35,7 +35,11 @@ After the merge, set `league.merged` to `true`; survival then scores +3 (the val
 
 ## Deploy
 
-Any static host works. On Netlify or Vercel: build command `npm run build`, publish directory `out`. Set `NEXT_PUBLIC_SITE_URL` to the live URL so link previews in group chats show the image.
+Live at **https://mosotomay.github.io/survivor51-dashboard/**.
+
+Every push to `main` runs `.github/workflows/deploy.yml`, which validates the data, builds, and publishes to GitHub Pages (about 1 minute). If validation fails, the deploy stops and the previous version stays live. Check runs under the repo's **Actions** tab.
+
+The workflow sets `NEXT_PUBLIC_BASE_PATH` (the `/survivor51-dashboard` subfolder) and `NEXT_PUBLIC_SITE_URL`; local `npm run dev` needs neither.
 
 ## Not built yet
 
