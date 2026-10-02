@@ -1,28 +1,27 @@
-// Thursday score updater.
+// Weekly score updater, run by a scheduled Claude routine every Friday.
 //
 // 1. Reads Global TV's Fantasy Tribe page and finds "EPISODE N POINTS" results not yet in
-//    data/league.json.
-// 2. Takes each castaway's official total from the image's alt text, and reads the per-event
-//    breakdown from the results image with Claude (vision + structured output).
+//    data/league.json. Each castaway's official total comes from the image's alt text.
+// 2. The per-event breakdown is read from the results image, either by the routine's Claude
+//    session (it writes the reading to a JSON file passed as EXTRACTION_FILE) or, if
+//    ANTHROPIC_API_KEY is set instead, by a Claude API call made here.
 // 3. Merges the episode into league.json only if every check passes (events add up to the
-//    official totals, every name and rule is known). Otherwise it exits non-zero so GitHub
-//    emails the repo owner, and the live site keeps last week's data.
+//    official totals, every name and rule is known). Otherwise it exits non-zero and writes
+//    nothing, so the live site keeps last week's data.
 //
-// Also: on Thursday mornings it marks the next episode as pending (shows the "results not
-// posted yet" banner), and on the final Friday run it fails if results never appeared.
-//
-// Flags (for testing):
+// Usage:
+//   --list                 print new episodes (image URL + official totals), the rule catalog and
+//                          the extraction format, then exit
+//   --slices N             save episode N's image as overlapping slices in /tmp/survivor51/ for
+//                          viewing (rows near slice edges appear twice)
+//   --episode N            only process episode N
 //   --dry-run              print the merged episode, don't write league.json
-//   --recheck N            re-read already-posted episode N from the page and compare it with
-//                          the stored data (never writes; a self-test for the API key and reading)
-//   --episode N --image U  process a specific episode image (URL or local path)
-//   --now ISO              pretend the current time is ISO (for schedule logic)
-// Env: ANTHROPIC_API_KEY (required unless MOCK_EXTRACTION points at a JSON fixture)
+//   --recheck N            re-read already-posted episode N and compare with the stored data
+//   --image U              with --episode N: read a specific image (URL or local path)
+// Env: EXTRACTION_FILE (a reading in the --list format) or ANTHROPIC_API_KEY
 
-import { appendFileSync, readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
-import Anthropic from "@anthropic-ai/sdk";
-import sharp from "sharp";
 import { FINALE_RULES, validateLeague } from "./league-checks.mjs";
 
 const PAGE_URL = "https://www.globaltv.com/survivor-51-fantasy-tribe/";
@@ -30,10 +29,6 @@ const DATA_PATH = new URL("../data/league.json", import.meta.url);
 const TZ = "America/Toronto";
 const UA = "Mozilla/5.0 (survivor51-dashboard updater; +https://github.com/mosotomay/survivor51-dashboard)";
 const MODEL = "claude-opus-5-5";
-// Friday 11:00-11:59 Eastern: if the pending episode still has no results, alert once.
-// (The schedule runs at both 15:00 and 16:00 UTC on Fridays so one of them lands in this hour
-// whether or not daylight saving time is in effect.)
-const DEADLINE = { weekday: "Fri", hour: 11 };
 
 const args = process.argv.slice(2);
 const flag = (name) => {
@@ -42,11 +37,7 @@ const flag = (name) => {
 };
 const RECHECK = flag("--recheck") ? Number(flag("--recheck")) : null;
 const DRY_RUN = args.includes("--dry-run") || RECHECK != null;
-const NOW = flag("--now") ? new Date(flag("--now")) : new Date();
-
-function setOutput(key, value) {
-  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `${key}=${value}\n`);
-}
+const NOW = new Date();
 
 function easternParts(date) {
   const parts = Object.fromEntries(
@@ -108,6 +99,7 @@ async function loadImage(src) {
 
 /** Splits the tall results image into overlapping slices so small text stays legible. */
 async function sliceImage(buf) {
+  const { default: sharp } = await import("sharp");
   const img = sharp(buf);
   const { width, height } = await img.metadata();
   const slice = 800, overlap = 120;
@@ -128,7 +120,8 @@ function ruleCatalog(d) {
 }
 
 async function extractWithClaude(d, episode, imageBuf) {
-  if (process.env.MOCK_EXTRACTION) return JSON.parse(readFileSync(process.env.MOCK_EXTRACTION, "utf8"));
+  if (process.env.EXTRACTION_FILE) return JSON.parse(readFileSync(process.env.EXTRACTION_FILE, "utf8"));
+  if (!process.env.ANTHROPIC_API_KEY) throw new Error("Set EXTRACTION_FILE (a reading of the image) or ANTHROPIC_API_KEY");
 
   const ruleIds = [d.rules.survival.id, ...d.rules.tiers.flatMap((t) => t.rules.map((r) => r.id)), ...FINALE_RULES.map((r) => r.id)];
   const schema = {
@@ -169,6 +162,7 @@ async function extractWithClaude(d, episode, imageBuf) {
   };
 
   const slices = await sliceImage(imageBuf);
+  const { default: Anthropic } = await import("@anthropic-ai/sdk");
   const client = new Anthropic();
   const stream = client.beta.messages.stream({
     model: MODEL,
@@ -243,26 +237,66 @@ function label(episode) {
   return `Updated through Episode ${episode} · ${p.weekday} ${p.month} ${p.day}`;
 }
 
+const EXTRACTION_FORMAT = `{
+  "castaways": [
+    {
+      "name": "BRADY",              // as printed on the image
+      "total": 36,                  // episode total as printed
+      "left_game": false,           // true if this episode shows them leaving (voted out, torch snuffed, medevac, quit)
+      "events": [
+        { "label": "Won Group Reward", "points": 5, "rule_id": "group-win" }
+      ]
+    }
+  ]
+}`;
+
 async function main() {
   const d = JSON.parse(readFileSync(DATA_PATH, "utf8"));
   const posted = new Set(d.league.postedEpisodes);
-  const lastEp = Math.max(...posted);
+  const only = flag("--episode") ? Number(flag("--episode")) : null;
 
   let found;
   if (flag("--image")) {
-    found = [{ episode: Number(flag("--episode")), image: flag("--image"), altTotals: {} }];
+    found = [{ episode: only, image: flag("--image"), altTotals: {} }];
   } else {
     const r = await fetch(PAGE_URL, { headers: { "user-agent": UA } });
     if (!r.ok) throw new Error(`Fantasy page fetch failed (${r.status})`);
     const all = findResults(await r.text());
     found = RECHECK != null ? all.filter((f) => f.episode === RECHECK) : all.filter((f) => !posted.has(f.episode));
+    if (only != null) found = found.filter((f) => f.episode === only);
     found.sort((a, b) => a.episode - b.episode);
     if (RECHECK != null && !found.length) throw new Error(`Episode ${RECHECK} results not found on ${PAGE_URL}`);
   }
 
+  if (args.includes("--list")) {
+    if (!found.length) {
+      console.log(`NO NEW RESULTS. league.json has episodes ${[...posted].join(", ")}; nothing newer on ${PAGE_URL}`);
+      return;
+    }
+    console.log(`NEW RESULTS: ${found.map((f) => f.episode).join(", ")}\n`);
+    for (const f of found) console.log(`Episode ${f.episode}\n  image: ${f.image}\n  official totals: ${JSON.stringify(f.altTotals)}\n`);
+    console.log(`Rule catalog (rule_id: meaning (points)):\n${ruleCatalog(d)}\n`);
+    console.log(`Write the reading of one episode image as JSON in this format (comments for explanation only):\n${EXTRACTION_FORMAT}`);
+    return;
+  }
+
+  if (flag("--slices")) {
+    const n = Number(flag("--slices"));
+    const f = found.find((x) => x.episode === n);
+    if (!f) throw new Error(`Episode ${n} is not among the new results`);
+    const { mkdirSync } = await import("node:fs");
+    mkdirSync("/tmp/survivor51", { recursive: true });
+    const parts = await sliceImage(await loadImage(f.image));
+    parts.forEach((buf, i) => {
+      const out = `/tmp/survivor51/ep${n}-${i + 1}-of-${parts.length}.jpg`;
+      writeFileSync(out, buf);
+      console.log(out);
+    });
+    return;
+  }
+
   let changed = false;
   for (const f of found) {
-    if (posted.has(f.episode) && !flag("--image") && RECHECK == null) continue;
     console.log(`Episode ${f.episode}: reading ${f.image}`);
     const extraction = await extractWithClaude(d, f.episode, await loadImage(f.image));
     const { episode, leftGame } = buildEpisode(d, f, extraction);
@@ -275,7 +309,7 @@ async function main() {
       const extra = read.filter((k, i, a) => a.slice(0, i + 1).filter((x) => x === k).length > stored.filter((x) => x === k).length);
       if (missing.length || extra.length)
         throw new Error(`Recheck of Episode ${f.episode} differs from stored data.\nMissing: ${missing.join(", ") || "none"}\nExtra: ${extra.join(", ") || "none"}`);
-      console.log(`Recheck OK: Claude's reading of Episode ${f.episode} matches the stored data (${read.length} events).`);
+      console.log(`Recheck OK: the reading of Episode ${f.episode} matches the stored data (${read.length} events).`);
       continue;
     }
 
@@ -292,30 +326,16 @@ async function main() {
   }
 
   if (RECHECK != null) return;
-
-  const now = easternParts(NOW);
   if (!changed) {
-    if (now.weekday === "Thu" && now.hour < 17 && d.league.pendingEpisode == null) {
-      // An episode aired Wednesday; show "results not posted yet" until Global TV scores it.
-      d.league.pendingEpisode = lastEp + 1;
-      changed = true;
-      console.log(`Marked Episode ${lastEp + 1} as pending.`);
-    } else {
-      console.log("No new results on the Fantasy Tribe page.");
-    }
+    console.log("No new results on the Fantasy Tribe page.");
+    return;
   }
-
-  if (changed) {
-    const errors = validateLeague(d);
-    if (errors.length) throw new Error(`Updated data failed validation; nothing was saved:\n- ${errors.join("\n- ")}`);
-    if (DRY_RUN) console.log(JSON.stringify({ league: d.league, episodes: d.episodes.slice(-1) }, null, 2));
-    else writeFileSync(DATA_PATH, JSON.stringify(d, null, 2) + "\n");
-  }
-  setOutput("changed", changed && !DRY_RUN ? "true" : "false");
-  setOutput("summary", d.league.updatedLabel);
-
-  if (!changed && d.league.pendingEpisode != null && now.weekday === DEADLINE.weekday && now.hour === DEADLINE.hour) {
-    throw new Error(`Episode ${d.league.pendingEpisode} results are still not posted on ${PAGE_URL}. The site keeps showing Episode ${lastEp}.`);
+  const errors = validateLeague(d);
+  if (errors.length) throw new Error(`Updated data failed validation; nothing was saved:\n- ${errors.join("\n- ")}`);
+  if (DRY_RUN) console.log(JSON.stringify({ league: d.league, episodes: d.episodes.slice(-1) }, null, 2));
+  else {
+    writeFileSync(DATA_PATH, JSON.stringify(d, null, 2) + "\n");
+    console.log(`Saved data/league.json: ${d.league.updatedLabel}`);
   }
 }
 

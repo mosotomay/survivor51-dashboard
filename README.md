@@ -22,19 +22,16 @@ npm run build      # validates data/league.json, then writes the static site to 
 
 ## Weekly update (automatic)
 
-`.github/workflows/update-scores.yml` runs `scripts/update-scores.mjs` on a schedule (Eastern time):
+A scheduled **Claude routine** (claude.ai/code/routines) runs every Friday evening:
 
-| When | What happens |
-| --- | --- |
-| Thu ~9 am | Marks the next episode "results not posted yet" (banner on the site) |
-| Thu 5 pm to Fri noon, every 2 hours | Checks the [Fantasy Tribe page](https://www.globaltv.com/survivor-51-fantasy-tribe/#results) for a new "EPISODE N POINTS" image. If found: official totals come from the image's alt text, per-event breakdowns are read from the image by Claude, eliminations are recorded, everything is validated, committed, and the site redeploys |
-| Fri 11 am | If results still haven't appeared, the run fails and GitHub emails the repo owner |
+1. `node scripts/update-scores.mjs --list` finds new "EPISODE N POINTS" results on the [Fantasy Tribe page](https://www.globaltv.com/survivor-51-fantasy-tribe/#results) and prints each castaway's official total (from the image's alt text).
+2. `--slices N` cuts the tall results image into readable sections; Claude reads every breakdown line and writes them to a JSON file.
+3. `EXTRACTION_FILE=<file> node scripts/update-scores.mjs --episode N` merges the episode only if every castaway's events add up exactly to the official totals and every name and rule is recognized. Eliminations are recorded.
+4. The routine commits `data/league.json` and pushes; the push redeploys the site.
 
-Nothing is published unless every castaway's events add up exactly to Global TV's totals and every name and rule is recognized. Any failure leaves last week's data live and triggers GitHub's failed-workflow email.
+If anything doesn't check out, nothing is committed and the site keeps last week's data; the routine's run log says why.
 
-**Setup:** the repo needs an `ANTHROPIC_API_KEY` secret (Settings → Secrets and variables → Actions). Each scored episode costs roughly $0.20–0.50 in API usage (Claude Opus 5.5); runs that find nothing new make no API call. Run it on demand from the **Actions** tab → **Update scores** → **Run workflow**.
-
-**Fixing data by hand:** edit `data/league.json` and push. `npm run validate` runs the same checks locally. If a name isn't recognized, add it as the castaway's `resultsName`. To re-read an episode image locally: `ANTHROPIC_API_KEY=... node scripts/update-scores.mjs --dry-run --episode 3 --image <image URL>`.
+**Fixing data by hand:** edit `data/league.json` and push. `npm run validate` runs the same checks locally. If a name isn't recognized, add it as the castaway's `resultsName`. With an `ANTHROPIC_API_KEY` set, `node scripts/update-scores.mjs` can also read an image through the Claude API itself.
 
 After the merge, set `league.merged` to `true`; survival then scores +3. Finale placements (`place-3rd`, `place-2nd`, `winner`) are scored on the castaway, and the +30 MVP bonus is added automatically to whoever drafted the winner first.
 

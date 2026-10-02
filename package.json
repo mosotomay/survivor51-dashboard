@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "validate": "node scripts/validate-league.mjs",
-    "prebuild": "node scripts/validate-league.mjs",
-    "update": "node scripts/update-scores.mjs"
+    "prebuild": "node scripts/validate-league.mjs"
   },
   "dependencies": {
     "next": "16.3.8",

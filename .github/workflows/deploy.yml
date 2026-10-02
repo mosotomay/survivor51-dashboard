@@ -7,9 +7,6 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  # Called by update-scores.yml after it commits new scores. (Pushes made with the
-  # workflow's own token don't trigger "push" runs, so it calls this directly.)
-  workflow_call:
 
 permissions:
   contents: read
@@ -25,8 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-        with:
-          ref: main # latest data, including a commit the updater just made
       - uses: actions/setup-node@v7
         with:
           node-version: 22
