@@ -50,11 +50,11 @@ export default function RulesSheet({ rule, onClose }: { rule: string | null; onC
           <h3 className={sectionLabel}>Survive the week</h3>
           <div className="grid grid-cols-2 gap-2.5">
             <div className={`${card} px-3.5 py-3`}>
-              <div className="font-display text-[38px] leading-none font-extrabold">+{R.survival.preMerge}</div>
+              <div className="num text-[30px] leading-none font-bold">+{R.survival.preMerge}</div>
               <div className="text-[13px] text-mut">Pre-merge</div>
             </div>
             <div className={`${card} px-3.5 py-3`}>
-              <div className="font-display text-[38px] leading-none font-extrabold">+{R.survival.postMerge}</div>
+              <div className="num text-[30px] leading-none font-bold">+{R.survival.postMerge}</div>
               <div className="text-[13px] text-mut">Post-merge</div>
             </div>
           </div>
@@ -65,7 +65,7 @@ export default function RulesSheet({ rule, onClose }: { rule: string | null; onC
           return (
             <section key={key} data-rule={key} className="rounded-2xl" style={{ ...ring(key), outlineOffset: 6 }}>
               <div className="mb-2.5 flex items-baseline gap-2.5">
-                <div className="font-display text-[34px] leading-none font-extrabold" style={{ color: tierColor(t.points) }}>
+                <div className="num text-[27px] leading-none font-bold" style={{ color: tierColor(t.points) }}>
                   +{t.points}
                 </div>
                 <h3 className="disp m-0 text-[15px] leading-none font-bold tracking-[0.08em]">{t.points}-point events</h3>
@@ -103,7 +103,7 @@ export default function RulesSheet({ rule, onClose }: { rule: string | null; onC
               [R.finale.winner, "Winner"],
             ].map(([p, l]) => (
               <div key={l} className={`${card} p-3`}>
-                <div className="font-display text-[30px] leading-none font-extrabold">+{p}</div>
+                <div className="num text-[23px] leading-none font-bold">+{p}</div>
                 <div className="text-[13px] text-mut">{l}</div>
               </div>
             ))}
@@ -116,7 +116,7 @@ export default function RulesSheet({ rule, onClose }: { rule: string | null; onC
             <div className="flex-1 text-[13.5px]">
               <b>MVP bonus.</b> +{R.finale.mvpBonus} more if the winner is your MVP (your first draft pick).
             </div>
-            <div className="font-display text-[28px] leading-none font-extrabold text-amb">+{R.finale.mvpBonus}</div>
+            <div className="num text-[22px] leading-none font-bold text-amb">+{R.finale.mvpBonus}</div>
           </div>
         </section>
 

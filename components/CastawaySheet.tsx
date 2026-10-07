@@ -103,7 +103,7 @@ export default function CastawaySheet({ c, onClose }: { c: CastawayM; onClose: (
         <div className="grid grid-cols-2 gap-2.5">
           <div className="rounded-[14px] border border-line bg-s1 px-3.5 py-3">
             <div className={microLabel}>Season total</div>
-            <div className="font-display mt-1.5 text-[46px] leading-none font-extrabold tabular-nums">{c.total}</div>
+            <div className="num mt-1.5 text-[36px] leading-none font-bold">{c.total}</div>
           </div>
           <button
             type="button"
@@ -135,7 +135,7 @@ export default function CastawaySheet({ c, onClose }: { c: CastawayM; onClose: (
                 <div className="flex flex-col gap-2 pb-[18px]">
                   <div className="flex items-baseline justify-between gap-2.5">
                     <div className="disp text-[17px] leading-[1.1] font-bold tracking-[0.04em]">{e.label}</div>
-                    <div className="font-display text-[22px] leading-none font-extrabold" style={{ color: e.subColor }}>
+                    <div className="num text-[17px] leading-none font-semibold" style={{ color: e.subColor }}>
                       {e.sub}
                     </div>
                   </div>

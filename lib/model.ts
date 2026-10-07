@@ -27,6 +27,8 @@ export type FriendM = Friend & {
   tied: boolean;
   /** Places gained since the previous episode; null when there is no prior week to compare. */
   move: number | null;
+  /** Crown for first place, poop for last; null in between or while everyone is tied. */
+  badge: "crown" | "poop" | null;
 };
 
 const initials = (short: string) => {
@@ -82,7 +84,7 @@ export function buildModel(d: LeagueData = data) {
         epPts[e] = fc.reduce((s, c) => s + c.epPts[e], 0) + (mvpWon ? d.rules.finale.mvpBonus : 0);
       });
       const total = posted.reduce((s, e) => s + epPts[e], 0);
-      return { ...f, cast: fc, epPts, total, rank: 0, tied: false, move: null };
+      return { ...f, cast: fc, epPts, total, rank: 0, tied: false, move: null, badge: null };
     });
 
   const cur = rankBy(friends, (f) => f.total);
@@ -94,6 +96,8 @@ export function buildModel(d: LeagueData = data) {
     f.tied = friends.filter((g) => g.total === f.total).length > 1;
     f.move = hasPrev ? prev.rank[f.id] - f.rank : null;
   });
+  const lastRank = Math.max(...friends.map((f) => f.rank));
+  if (lastRank > 1) friends.forEach((f) => (f.badge = f.rank === 1 ? "crown" : f.rank === lastRank ? "poop" : null));
   const byId = Object.fromEntries(friends.map((f) => [f.id, f]));
 
   // Highlights for the latest posted episode.
@@ -141,6 +145,6 @@ export const friendColor = (hue: number) => `oklch(0.76 0.13 ${hue})`;
 export const friendLine = (hue: number, dark: boolean) => (dark ? `oklch(0.76 0.13 ${hue})` : `oklch(0.55 0.15 ${hue})`);
 
 export const TRIBES = {
-  Toka: { bg: "#e3b02a", ink: "#1d1405" },
-  Savu: { bg: "#7c55c7", ink: "#ffffff" },
+  Toka: { bg: "#e3b02a", ink: "#1d1405", text: "var(--tokaT)" },
+  Savu: { bg: "#7c55c7", ink: "#ffffff", text: "var(--savuT)" },
 } as const;

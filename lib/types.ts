@@ -1,6 +1,6 @@
 export type Tribe = "Toka" | "Savu";
 
-export type Friend = { id: string; name: string; hue: number; draftOrder: number };
+export type Friend = { id: string; name: string; hue: number; draftOrder: number; photoUrl?: string; photoLargeUrl?: string };
 
 export type Castaway = {
   id: string;

@@ -8,13 +8,13 @@ import { CastAvatar, EventChip, FriendAvatar, PageHead, microLabel } from "./ui"
 type Sel = "season" | number;
 
 export default function Weekly() {
-  const { m } = useLeague();
+  const { m, openTeam } = useLeague();
   const [sel, setSel] = useState<Sel>("season");
   const pending = m.pendingEp != null;
   const eps = pending ? [...m.posted, m.pendingEp as number] : m.posted;
   const epMax: Record<number, number> = {};
   m.posted.forEach((e) => (epMax[e] = Math.max(...m.friends.map((f) => f.epPts[e]))));
-  const cols = `minmax(108px,1.5fr) repeat(${eps.length},minmax(52px,1fr)) minmax(56px,0.8fr)`;
+  const cols = `minmax(128px,1.5fr) repeat(${eps.length},minmax(52px,1fr)) minmax(56px,0.8fr)`;
   const isPendingSel = sel !== "season" && sel > m.lastEp;
 
   const chips: { key: Sel; label: string; pending?: boolean }[] = [
@@ -27,7 +27,8 @@ export default function Weekly() {
       <div className="mb-3">
         <PageHead title="Weekly" aside="Points per episode" />
       </div>
-      <div role="tablist" aria-label="Episode" className="no-scrollbar -mx-4 mb-4 flex gap-2 overflow-x-auto px-4">
+      <div className="mb-2 text-[12.5px] text-mut">Tap a button to see that episode&apos;s points.</div>
+      <div role="tablist" aria-label="Episode" className="no-scrollbar -mx-4 mb-4 flex gap-2.5 overflow-x-auto px-4 pt-0.5 pb-2">
         {chips.map((c) => {
           const a = sel === c.key;
           return (
@@ -37,11 +38,11 @@ export default function Weekly() {
               role="tab"
               aria-selected={a}
               onClick={() => setSel(c.key)}
-              className="disp flex min-h-10 flex-none cursor-pointer items-center gap-2 rounded-full border px-4 text-[16px] leading-none font-bold tracking-[0.04em]"
+              className="disp press flex min-h-10 flex-none cursor-pointer items-center gap-2 rounded-full border px-4 text-[16px] leading-none font-bold tracking-[0.04em]"
               style={{
-                borderColor: a ? "var(--ink)" : c.pending ? "var(--ambT)" : "var(--line)",
-                background: a ? "var(--ink)" : "var(--s1)",
-                color: a ? "var(--bg)" : "var(--ink)",
+                borderColor: a ? "var(--ambT)" : c.pending ? "var(--ambT)" : "var(--line)",
+                background: a ? "var(--fire)" : "linear-gradient(180deg,var(--s2),var(--s1))",
+                color: a ? "#1d1206" : "var(--ink)",
               }}
             >
               {c.label}
@@ -79,9 +80,16 @@ export default function Weekly() {
                   className="grid items-center gap-1 border-t border-line px-1.5 py-1"
                   style={{ gridTemplateColumns: cols }}
                 >
-                  <div role="rowheader" className="flex min-w-0 items-center gap-2 py-1.5">
-                    <div className="size-2.5 flex-none rounded-full" style={{ background: `oklch(0.76 0.13 ${f.hue})` }} />
-                    <div className="disp truncate text-[18px] leading-none font-bold">{f.name}</div>
+                  <div role="rowheader" className="min-w-0">
+                    <button
+                      type="button"
+                      onClick={() => openTeam(f.id)}
+                      aria-label={`${f.name}. Open team`}
+                      className="flex w-full min-w-0 cursor-pointer items-center gap-2 border-0 bg-transparent py-1.5 pl-0 text-left text-ink"
+                    >
+                      <FriendAvatar f={f} size={28} font={14} />
+                      <span className="disp truncate text-[18px] leading-none font-bold">{f.name}</span>
+                    </button>
                   </div>
                   {eps.map((e) => {
                     if (e > m.lastEp)
@@ -90,7 +98,7 @@ export default function Weekly() {
                           role="cell"
                           key={e}
                           aria-label="Pending"
-                          className="font-display flex h-[42px] items-center justify-center rounded-[10px] border border-dashed border-line text-[22px] font-extrabold text-mut"
+                          className="num flex h-[42px] items-center justify-center rounded-[10px] border border-dashed border-line text-[17px] font-semibold text-mut"
                         >
                           —
                         </div>
@@ -101,7 +109,7 @@ export default function Weekly() {
                       <div
                         role="cell"
                         key={e}
-                        className="font-display flex h-[42px] flex-col items-center justify-center gap-px rounded-[10px] text-[22px] leading-none font-extrabold tabular-nums"
+                        className="num flex h-[42px] flex-col items-center justify-center gap-px rounded-[10px] text-[17px] leading-none font-semibold"
                         style={{ background: hi ? "var(--fire)" : "var(--s2)", color: hi ? "#1d1206" : "var(--ink)" }}
                       >
                         {v}
@@ -109,7 +117,7 @@ export default function Weekly() {
                       </div>
                     );
                   })}
-                  <div role="cell" className="font-display pr-1.5 text-right text-[26px] leading-none font-extrabold tabular-nums">
+                  <div role="cell" className="num pr-1.5 text-right text-[20px] leading-none font-semibold">
                     {f.total}
                   </div>
                 </div>
@@ -139,7 +147,7 @@ export default function Weekly() {
 }
 
 function EpisodeView({ ep }: { ep: number }) {
-  const { m, openCast, openRule } = useLeague();
+  const { m, openCast, openRule, openTeam } = useLeague();
   const s = [...m.friends].sort((a, b) => b.epPts[ep] - a.epPts[ep] || a.draftOrder - b.draftOrder);
   const mx = s[0].epPts[ep];
   return (
@@ -156,17 +164,24 @@ function EpisodeView({ ep }: { ep: number }) {
             style={{ borderColor: top ? "var(--ambT)" : "var(--line)" }}
           >
             <div className="flex items-center gap-2.5">
-              <div className="font-display min-w-7 text-[20px] leading-none font-extrabold text-mut">
+              <div className="num min-w-7 text-[16px] leading-none font-semibold text-mut">
                 {(tied ? "T" : "") + (firstIdx + 1)}
               </div>
-              <FriendAvatar f={f} size={34} font={17} />
-              <div className="disp flex-1 text-[21px] leading-none font-bold">{f.name}</div>
+              <button
+                type="button"
+                onClick={() => openTeam(f.id)}
+                aria-label={`${f.name}. Open team`}
+                className="flex min-w-0 flex-1 cursor-pointer items-center gap-2.5 border-0 bg-transparent p-0 text-left text-ink"
+              >
+                <FriendAvatar f={f} size={34} font={17} />
+                <span className="disp truncate text-[21px] leading-none font-bold">{f.name}</span>
+              </button>
               {top && (
                 <div className="disp rounded-full bg-fire px-2 py-1 text-[12px] leading-none font-bold tracking-[0.08em] text-onfire">
                   Top scorer
                 </div>
               )}
-              <div className="font-display text-[32px] leading-none font-extrabold tabular-nums">{pts}</div>
+              <div className="num text-[25px] leading-none font-bold">{pts}</div>
             </div>
             {f.cast.map((c) => {
               const evs = c.events[ep] ?? [];
@@ -190,7 +205,7 @@ function EpisodeView({ ep }: { ep: number }) {
                   <div className="flex min-w-0 flex-1 flex-col gap-[7px]">
                     <div className="flex items-baseline justify-between gap-2">
                       <div className="text-[14px] font-semibold">{c.short}</div>
-                      <div className="font-display text-[20px] leading-none font-extrabold">
+                      <div className="num text-[16px] leading-none font-semibold">
                         {goneBefore ? "" : (p > 0 ? "+" : "") + p}
                       </div>
                     </div>

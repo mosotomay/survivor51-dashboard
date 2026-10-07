@@ -4,7 +4,7 @@ import { useLeague } from "./LeagueApp";
 import { CastAvatar, FriendAvatar, PageHead } from "./ui";
 
 export default function Draft() {
-  const { m, openCast } = useLeague();
+  const { m, openCast, openTeam } = useLeague();
   const n = m.friends.length;
   const rounds = Array.from({ length: Math.max(...m.cast.map((c) => c.round)) }, (_, i) => i + 1);
   const cols = `76px repeat(${n},minmax(112px,1fr))`;
@@ -20,10 +20,16 @@ export default function Draft() {
           <div className="grid gap-2" style={{ gridTemplateColumns: cols }}>
             <div />
             {m.friends.map((f) => (
-              <div key={f.id} className="flex items-center gap-2 px-0.5 py-1">
+              <button
+                key={f.id}
+                type="button"
+                onClick={() => openTeam(f.id)}
+                aria-label={`${f.name}. Open team`}
+                className="flex cursor-pointer items-center gap-2 border-0 bg-transparent px-0.5 py-1 text-left text-ink"
+              >
                 <FriendAvatar f={f} size={24} font={13} />
-                <div className="disp text-[17px] leading-none font-bold">{f.name}</div>
-              </div>
+                <span className="disp text-[17px] leading-none font-bold">{f.name}</span>
+              </button>
             ))}
           </div>
           {rounds.map((r) => (
@@ -52,14 +58,14 @@ export default function Draft() {
                       background: r === 1 ? "linear-gradient(180deg,var(--firesoft),var(--s1))" : "var(--s1)",
                     }}
                   >
-                    <div className="font-display absolute top-[9px] left-[9px] text-[13px] leading-none font-bold text-mut">
+                    <div className="num absolute top-[9px] left-[9px] text-[11px] leading-none font-bold text-mut">
                       #{c.pick}
                     </div>
                     <div className="mt-2">
                       <CastAvatar c={c} size={52} font={19} x={4} mvp={c.mvp} />
                     </div>
                     <div className="min-h-[31px] text-[13px] leading-[1.2] font-semibold">{c.short}</div>
-                    <div className="font-display text-[24px] leading-none font-extrabold tabular-nums">{c.total}</div>
+                    <div className="num text-[19px] leading-none font-semibold">{c.total}</div>
                   </button>
                 );
               })}

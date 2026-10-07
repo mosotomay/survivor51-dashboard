@@ -1,22 +1,25 @@
 "use client";
 
-import type { FriendM } from "@/lib/model";
-import { ruleTarget } from "@/lib/model";
+import type { CastawayM, FriendM } from "@/lib/model";
+import { asset, ruleTarget, TRIBES } from "@/lib/model";
 import { useLeague } from "./LeagueApp";
 import PointsChart from "./PointsChart";
-import { CastAvatar, EventChip, FriendAvatar, PageHead, microLabel } from "./ui";
+import { CastAvatar, EventChip, FriendAvatar, PageHead, XMark } from "./ui";
 
-const MEDAL: Record<number, string> = { 1: "linear-gradient(90deg,#f7b733,#f0642a)", 2: "#cfc6b8", 3: "#c07a45" };
-const PLACE = ["1st", "2nd", "3rd"];
+const ROW = "grid grid-cols-[28px_60px_minmax(0,1fr)_46px] items-center gap-2 px-3.5";
+const HEAD = "disp text-[12px] leading-none font-semibold tracking-[0.1em] text-mut";
+const SEP = "1px solid var(--row-line)";
+const OUT_RING = "#5a5248";
 
 const rankLabel = (f: FriendM) => (f.tied ? "T" : "") + f.rank;
+/** "Thien An Nguyen" -> "Thien An"; single names stay as they are. */
+const firstName = (short: string) => {
+  const parts = short.split(" ");
+  return parts.length > 1 ? parts.slice(0, -1).join(" ") : short;
+};
 
 export default function Standings() {
   const { m, openTeam, openCast, openRule } = useLeague();
-  const pending = m.pendingEp != null;
-  const weekPts = (f: FriendM) => (pending ? "—" : "+" + f.epPts[m.lastEp]);
-  const [first, second, third] = m.sorted;
-  const podium = [second, first, third];
   const { topFriend, topCast, bigEvent } = m.highlights;
 
   return (
@@ -26,86 +29,46 @@ export default function Standings() {
           <PageHead title="Standings" aside={`After Episode ${m.lastEp}`} />
         </div>
 
-        <ol className="m-0 grid list-none grid-cols-3 items-end gap-2 p-0">
-          {podium.map((f) => {
+        <div className="-mx-4 wide:mx-auto wide:w-full wide:max-w-[720px]">
+          <div className={`${ROW} py-2.5`} style={{ borderBottom: SEP }}>
+            <div className={HEAD}>#</div>
+            <div className={`${HEAD} text-center`}>Player</div>
+            <div className={`${HEAD} text-center`}>Team</div>
+            <div className={`${HEAD} text-right`}>Pts</div>
+          </div>
+          {m.sorted.map((f) => {
             const one = f.rank === 1;
             return (
-              <li key={f.id} className="min-w-0">
-                <button
-                  type="button"
-                  onClick={() => openTeam(f.id)}
-                  aria-label={`${PLACE[f.rank - 1] ?? f.rank + "th"} place: ${f.name}, ${f.total} points. Open team`}
-                  className="relative flex w-full cursor-pointer flex-col items-center gap-1.5 overflow-hidden rounded-[18px] border px-1.5 pb-3 text-center text-ink"
-                  style={{
-                    paddingTop: one ? 26 : f.rank === 2 ? 16 : 12,
-                    borderColor: one ? "var(--ambT)" : "var(--line)",
-                    background: one ? "linear-gradient(180deg,var(--firesoft),var(--s1) 75%)" : "var(--s1)",
-                  }}
-                >
-                  <div className="absolute top-0 right-0 left-0 h-1" style={{ background: MEDAL[f.rank] ?? "var(--line)" }} />
-                  <div className="disp text-[13px] leading-none font-bold tracking-[0.08em] text-mut">
-                    {f.tied ? "T" : ""}
-                    {PLACE[f.rank - 1] ?? f.rank + "th"}
+              <button
+                key={f.id}
+                type="button"
+                onClick={() => openTeam(f.id)}
+                aria-label={`Rank ${rankLabel(f)}: ${f.name}, ${f.total} points. Open team`}
+                className={`${ROW} w-full cursor-pointer border-0 py-2 text-left text-ink`}
+                style={{
+                  borderBottom: SEP,
+                  background: one ? "linear-gradient(90deg,rgba(245,173,58,0.14),rgba(245,173,58,0.02))" : "transparent",
+                }}
+              >
+                <div className="flex flex-col gap-1">
+                  <div className="num text-[17px] leading-none font-semibold" style={{ color: one ? "var(--ambT)" : undefined }}>
+                    {rankLabel(f)}
                   </div>
-                  <FriendAvatar f={f} size={46} font={22} ring={one ? "var(--ambT)" : "transparent"} />
-                  <div className="disp max-w-full truncate text-[19px] leading-none font-bold">{f.name}</div>
-                  <div className="font-display text-[46px] leading-[0.9] font-extrabold tabular-nums">{f.total}</div>
-                  <div className="text-[12px] font-medium text-mut">
-                    {pending ? `Ep ${m.pendingEp} pending` : `+${f.epPts[m.lastEp]} this week`}
-                  </div>
-                  <div className="mt-1 flex gap-1">
-                    {f.cast.map((c) => (
-                      <CastAvatar key={c.id} c={c} size={26} font={11} x={2.5} />
-                    ))}
-                  </div>
-                </button>
-              </li>
-            );
-          })}
-        </ol>
-
-        <div className="overflow-hidden rounded-[18px] border border-line bg-s1">
-          <div
-            className={`grid grid-cols-[34px_36px_minmax(0,1fr)_52px_56px] gap-2.5 border-b border-line px-3.5 py-2.5 ${microLabel}`}
-          >
-            <div>Rank</div>
-            <div />
-            <div>Player</div>
-            <div className="text-right">Ep {pending ? m.pendingEp : m.lastEp}</div>
-            <div className="text-right">Total</div>
-          </div>
-          {m.sorted.slice(3).map((f) => (
-            <button
-              key={f.id}
-              type="button"
-              onClick={() => openTeam(f.id)}
-              aria-label={`Rank ${rankLabel(f)}: ${f.name}, ${f.total} points. Open team`}
-              className="grid w-full cursor-pointer grid-cols-[34px_36px_minmax(0,1fr)_52px_56px] items-center gap-2.5 border-0 border-b border-line bg-transparent px-3.5 py-3 text-left text-ink"
-            >
-              <div className="flex flex-col gap-[3px]">
-                <div className="font-display text-[22px] leading-none font-extrabold">{rankLabel(f)}</div>
-                <Move f={f} />
-              </div>
-              <FriendAvatar f={f} size={36} font={18} />
-              <div className="flex min-w-0 flex-col gap-1.5">
-                <div className="flex min-w-0 items-center gap-2">
-                  <span className="disp text-[20px] leading-none font-bold">{f.name}</span>
-                  {f.tied && (
-                    <span className="rounded-full border border-line px-1.5 py-[3px] text-[10.5px] leading-none font-semibold tracking-[0.04em] text-mut uppercase">
-                      Tied
-                    </span>
-                  )}
+                  <Move f={f} />
                 </div>
-                <div className="flex gap-[5px]">
+                <div className="flex min-w-0 flex-col items-center gap-1.5">
+                  <FriendAvatar f={f} size={42} font={20} />
+                  <div className="disp w-full truncate text-center text-[13px] leading-none font-bold">{f.name}</div>
+                </div>
+                <div className="grid min-w-0 grid-cols-3 gap-0.5">
                   {f.cast.map((c) => (
-                    <CastAvatar key={c.id} c={c} size={24} font={10} x={2.5} />
+                    <TeamCast key={c.id} c={c} />
                   ))}
                 </div>
-              </div>
-              <div className="font-display text-right text-[18px] leading-none font-bold text-mut tabular-nums">{weekPts(f)}</div>
-              <div className="font-display text-right text-[34px] leading-none font-extrabold tabular-nums">{f.total}</div>
-            </button>
-          ))}
+                <div className="num text-right text-[22px] leading-none font-semibold">{f.total}</div>
+              </button>
+            );
+          })}
           <div className="flex flex-wrap gap-3.5 px-3.5 py-2.5 text-[12px] text-mut">
             <div className="flex items-center gap-1.5">
               <div aria-hidden className="relative size-3">
@@ -138,8 +101,11 @@ export default function Standings() {
           <PageHead as="h2" title="Week's highlights" aside={`Episode ${m.lastEp}`} />
         </div>
         <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-4 pb-1">
-          <div
-            className="flex shrink-0 grow basis-[190px] snap-start flex-col gap-2.5 rounded-2xl border border-line p-3.5"
+          <button
+            type="button"
+            onClick={() => openTeam(topFriend.id)}
+            aria-label={`Top player: ${topFriend.name}, +${topFriend.epPts[m.lastEp]}. Open team`}
+            className="flex shrink-0 grow basis-[190px] cursor-pointer snap-start flex-col gap-2.5 rounded-2xl border border-line p-3.5 text-left text-ink"
             style={{ background: "linear-gradient(160deg,var(--firesoft),var(--s1) 65%)" }}
           >
             <div className="disp text-[12px] leading-none font-bold tracking-[0.1em] text-amb">Top player</div>
@@ -147,8 +113,8 @@ export default function Standings() {
               <FriendAvatar f={topFriend} size={38} font={19} />
               <div className="disp text-[22px] leading-none font-bold">{topFriend.name}</div>
             </div>
-            <div className="font-display text-[40px] leading-[0.9] font-extrabold">+{topFriend.epPts[m.lastEp]}</div>
-          </div>
+            <div className="num text-[31px] leading-none font-bold">+{topFriend.epPts[m.lastEp]}</div>
+          </button>
 
           <button
             type="button"
@@ -165,7 +131,7 @@ export default function Standings() {
                 </div>
               </div>
             </div>
-            <div className="font-display text-[40px] leading-[0.9] font-extrabold">+{topCast.epPts[m.lastEp]}</div>
+            <div className="num text-[31px] leading-none font-bold">+{topCast.epPts[m.lastEp]}</div>
           </button>
 
           {bigEvent && (
@@ -185,14 +151,42 @@ export default function Standings() {
   );
 }
 
+/** Change in place since the previous episode: +5 / −1 / ±0; nothing before there is a prior week. */
 function Move({ f }: { f: FriendM }) {
   const mv = f.move;
-  const color = mv && mv > 0 ? "var(--junT)" : mv && mv < 0 ? "var(--embT)" : "var(--mut)";
-  const text = mv == null || mv === 0 ? "–" : (mv > 0 ? "▲" : "▼") + Math.abs(mv);
-  const label = mv == null || mv === 0 ? "No change" : mv > 0 ? `Up ${mv}` : `Down ${-mv}`;
+  if (mv == null) return null;
+  const color = mv > 0 ? "var(--junT)" : mv < 0 ? "var(--embT)" : "var(--mut)";
+  const text = mv > 0 ? `+${mv}` : mv < 0 ? `\u2212${-mv}` : "\u00b10";
+  const label = mv > 0 ? `Up ${mv}` : mv < 0 ? `Down ${-mv}` : "No change";
   return (
-    <div className="text-[11px] leading-none font-semibold" style={{ color }} aria-label={label}>
+    <div className="num text-[11px] leading-none font-semibold" style={{ color }} aria-label={label}>
       {text}
+    </div>
+  );
+}
+
+/** 36px castaway photo ringed in tribe colour, first name below; greyed with a red X once voted out. */
+function TeamCast({ c }: { c: CastawayM }) {
+  const out = !!c.votedOutEp;
+  const t = TRIBES[c.tribe];
+  return (
+    <div className="flex min-w-0 flex-col items-center gap-[5px]">
+      <div className="relative size-9 rounded-full" style={{ boxShadow: `0 0 0 2px ${out ? OUT_RING : t.bg}` }}>
+        <div
+          className="disp flex size-9 items-center justify-center overflow-hidden rounded-full text-[13px] leading-none font-bold"
+          style={{ background: t.bg, color: t.ink, opacity: out ? 0.45 : 1 }}
+        >
+          {c.initials}
+          {c.photoUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={asset(c.photoUrl)} alt="" loading="lazy" className="absolute inset-0 size-full rounded-full object-cover" />
+          )}
+        </div>
+        {out && <XMark thickness={2} />}
+      </div>
+      <div className="w-full truncate text-center text-[11px] leading-none font-medium" style={{ color: out ? "#8a7f70" : undefined }}>
+        {firstName(c.short)}
+      </div>
     </div>
   );
 }

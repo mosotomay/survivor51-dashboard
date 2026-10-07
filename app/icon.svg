@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff9a4d"/>
+      <stop offset="0.55" stop-color="#ffc56b"/>
+      <stop offset="1" stop-color="#ffe2a3"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b8fa6"/>
+      <stop offset="1" stop-color="#36b9c4"/>
+    </linearGradient>
+    <linearGradient id="sand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6dca4"/>
+      <stop offset="1" stop-color="#e9c27c"/>
+    </linearGradient>
+    <path id="head" d="M-62,-8 C-62,-66 62,-66 62,-8 C62,30 22,62 0,64 C-22,62 -62,30 -62,-8 Z"/>
+    <clipPath id="headClip"><use href="#head"/></clipPath>
+  </defs>
+
+  <rect width="512" height="512" fill="url(#sky)"/>
+  <circle cx="368" cy="196" r="74" fill="#fff1c1" opacity="0.55"/>
+  <circle cx="368" cy="196" r="54" fill="#fff6d8"/>
+  <rect y="236" width="512" height="80" fill="url(#sea)"/>
+  <path d="M40 262h60M160 280h80M300 258h70M410 286h60" stroke="#bdf0f0" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+  <path d="M0 312 C120 292 260 300 512 296 V512 H0 Z" fill="url(#sand)"/>
+
+  <!-- palm -->
+  <path d="M86 470 C92 390 98 300 128 214" fill="none" stroke="#8a5a2b" stroke-width="20" stroke-linecap="round"/>
+  <path d="M86 470 C92 390 98 300 128 214" fill="none" stroke="#6d4320" stroke-width="20" stroke-dasharray="4 22" stroke-linecap="butt"/>
+  <g fill="#2f9e4f" stroke="#1d6e35" stroke-width="4" stroke-linejoin="round">
+    <path d="M128 214 C96 178 46 182 18 214 C58 200 94 206 128 214 Z"/>
+    <path d="M128 214 C110 166 66 138 30 146 C70 160 100 184 128 214 Z"/>
+    <path d="M128 214 C138 164 178 132 222 140 C180 156 150 182 128 214 Z"/>
+    <path d="M128 214 C168 192 214 200 244 232 C204 220 168 214 128 214 Z"/>
+    <path d="M128 214 C120 176 128 140 150 118 C142 150 136 182 128 214 Z"/>
+  </g>
+  <circle cx="122" cy="222" r="9" fill="#7a4a1e"/>
+  <circle cx="136" cy="226" r="8" fill="#6a3f18"/>
+
+  <!-- towel in the two tribe colors -->
+  <g transform="rotate(-4 300 420)">
+    <rect x="132" y="378" width="350" height="86" rx="10" fill="#7c55c7"/>
+    <rect x="132" y="398" width="350" height="16" fill="#e3b02a"/>
+    <rect x="132" y="430" width="350" height="16" fill="#e3b02a"/>
+  </g>
+
+  <!-- alien: legs, body, arm -->
+  <g stroke="#2f7d24" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M380 398 L438 352 L486 384" fill="none" stroke="#2f7d24" stroke-width="34"/>
+    <path d="M380 398 L438 352 L486 384" fill="none" stroke="#7ed957" stroke-width="22"/>
+    <path d="M380 412 L478 420" fill="none" stroke="#2f7d24" stroke-width="34"/>
+    <path d="M380 412 L478 420" fill="none" stroke="#7ed957" stroke-width="22"/>
+    <ellipse cx="318" cy="404" rx="84" ry="36" fill="#7ed957"/>
+    <path d="M274 396 Q310 372 352 392" fill="none" stroke="#2f7d24" stroke-width="30"/>
+    <path d="M274 396 Q310 372 352 392" fill="none" stroke="#9be86f" stroke-width="18"/>
+  </g>
+
+  <!-- head, propped up and tilted toward the viewer -->
+  <g transform="translate(214 350) rotate(-62)">
+    <path d="M-16 -50 L-30 -92" stroke="#2f7d24" stroke-width="7" stroke-linecap="round"/>
+    <path d="M16 -50 L30 -92" stroke="#2f7d24" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="-30" cy="-94" r="9" fill="#9be86f" stroke="#2f7d24" stroke-width="5"/>
+    <circle cx="30" cy="-94" r="9" fill="#9be86f" stroke="#2f7d24" stroke-width="5"/>
+    <use href="#head" fill="#7ed957"/>
+    <g clip-path="url(#headClip)">
+      <path d="M-70 -30 C-40 -52 40 -52 70 -30 L70 -6 C40 -28 -40 -28 -70 -6 Z" fill="#7c55c7"/>
+      <g fill="#c9b3f5">
+        <circle cx="-34" cy="-30" r="3.5"/><circle cx="-12" cy="-35" r="3.5"/><circle cx="12" cy="-35" r="3.5"/><circle cx="34" cy="-30" r="3.5"/>
+      </g>
+    </g>
+    <use href="#head" fill="none" stroke="#2f7d24" stroke-width="6"/>
+    <!-- bandana knot and tails -->
+    <circle cx="-60" cy="-20" r="10" fill="#7c55c7" stroke="#4c2f8a" stroke-width="4"/>
+    <path d="M-64 -16 L-96 -2 L-86 -20 Z" fill="#7c55c7" stroke="#4c2f8a" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M-64 -24 L-98 -36 L-82 -14 Z" fill="#7c55c7" stroke="#4c2f8a" stroke-width="4" stroke-linejoin="round"/>
+    <!-- eyes -->
+    <ellipse cx="-24" cy="8" rx="18" ry="11" transform="rotate(28 -24 8)" fill="#111"/>
+    <ellipse cx="24" cy="8" rx="18" ry="11" transform="rotate(-28 24 8)" fill="#111"/>
+    <circle cx="-29" cy="3" r="4" fill="#fff"/>
+    <circle cx="19" cy="3" r="4" fill="#fff"/>
+    <path d="M-11 38 Q0 47 11 38" fill="none" stroke="#1f5c17" stroke-width="5" stroke-linecap="round"/>
+  </g>
+</svg>

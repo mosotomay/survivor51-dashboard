@@ -1,14 +1,15 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { buildModel, type Model } from "@/lib/model";
-import { Flame } from "./ui";
+import { asset, buildModel, type Model } from "@/lib/model";
 import Standings from "./Standings";
 import Teams from "./Teams";
 import Weekly from "./Weekly";
 import Draft from "./Draft";
 import CastawaySheet from "./CastawaySheet";
 import RulesSheet from "./RulesSheet";
+import PhotoViewer, { type ViewerPhoto } from "./PhotoViewer";
+import { PhotoZoom } from "./ui";
 
 export type Tab = "standings" | "teams" | "weekly" | "draft";
 const TABS: { key: Tab; label: string }[] = [
@@ -42,6 +43,7 @@ export default function LeagueApp() {
   const [rulesOpen, setRulesOpen] = useState(false);
   const [rule, setRule] = useState<string | null>(null);
   const [dark, setDark] = useState(true);
+  const [photo, setPhoto] = useState<ViewerPhoto | null>(null);
 
   // Read the current theme and hash-linked tab after hydration.
   useEffect(() => {
@@ -101,116 +103,118 @@ export default function LeagueApp() {
 
   return (
     <Ctx.Provider value={actions}>
-      <div className="min-h-dvh">
-        <header className="sticky top-0 z-20 border-b border-line bg-bg">
-          <div className="woven pointer-events-none absolute inset-0" />
-          <div className="relative mx-auto flex max-w-[1280px] items-center gap-5 px-4 pt-3 pb-2">
-            <div className="flex min-w-0 flex-1 items-center gap-3">
-              <div className="flex size-[34px] flex-none items-center justify-center rounded-[10px] border border-line bg-s1">
-                <Flame size={13} style={{ marginTop: 3 }} />
-              </div>
-              <div className="min-w-0">
-                <div className="disp text-[21px] leading-[1.05] font-extrabold tracking-[0.01em] text-balance">
-                  Survivor <span className="text-amb">51</span> Fantasy League
+      <PhotoZoom.Provider value={setPhoto}>
+        <div className="min-h-dvh">
+          <header className="sticky top-0 z-20 border-b border-line bg-bg">
+            <div className="woven pointer-events-none absolute inset-0" />
+            <div className="relative mx-auto flex max-w-[1280px] items-center gap-5 px-4 pt-3 pb-2">
+              <div className="flex min-w-0 flex-1 items-center gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={asset("/alien.svg")} alt="" width={40} height={40} className="size-10 flex-none rounded-[11px] border border-line" />
+                <div className="min-w-0">
+                  <div className="disp text-[21px] leading-[1.05] font-extrabold tracking-[0.01em] text-balance">
+                    Survivor <span className="text-amb">51</span> Fantasy League
+                  </div>
+                  <div className="mt-1 text-[12.5px] text-mut">{m.data.league.updatedLabel}</div>
                 </div>
-                <div className="mt-1 text-[12.5px] text-mut">{m.data.league.updatedLabel}</div>
               </div>
+              <nav aria-label="Sections" className="hidden items-center gap-0.5 wide:flex">
+                {TABS.map((t) => (
+                  <button
+                    key={t.key}
+                    type="button"
+                    onClick={() => go(t.key)}
+                    aria-current={tab === t.key ? "page" : undefined}
+                    className={`disp cursor-pointer rounded-[10px] border-0 px-4 py-2.5 text-[17px] leading-none font-bold tracking-[0.04em] ${
+                      tab === t.key ? "bg-s2 text-ink" : "bg-transparent text-mut"
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => actions.openRule(null)}
+                  className="disp ml-2 cursor-pointer rounded-[10px] border border-line bg-s1 px-4 py-[9px] text-[17px] leading-none font-bold tracking-[0.04em] text-ink"
+                >
+                  Rules
+                </button>
+              </nav>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
+                title="Switch light / dark"
+                className="flex size-10 flex-none cursor-pointer items-center justify-center rounded-full border border-line bg-s1"
+              >
+                <div
+                  className="size-4 rounded-full border-2 border-ink"
+                  style={{ background: "linear-gradient(90deg,var(--ink) 50%,transparent 50%)" }}
+                />
+              </button>
             </div>
-            <nav aria-label="Sections" className="hidden items-center gap-0.5 wide:flex">
+            <nav aria-label="Sections" className="relative grid grid-cols-[1.3fr_1fr_1fr_1fr_1fr] px-1.5 wide:hidden">
               {TABS.map((t) => (
                 <button
                   key={t.key}
                   type="button"
                   onClick={() => go(t.key)}
                   aria-current={tab === t.key ? "page" : undefined}
-                  className={`disp cursor-pointer rounded-[10px] border-0 px-4 py-2.5 text-[17px] leading-none font-bold tracking-[0.04em] ${
-                    tab === t.key ? "bg-s2 text-ink" : "bg-transparent text-mut"
+                  className={`disp relative h-[46px] cursor-pointer border-0 bg-transparent p-0 text-[15px] leading-none font-bold tracking-[0.04em] ${
+                    tab === t.key ? "text-ink" : "text-mut"
                   }`}
                 >
                   {t.label}
+                  <div
+                    className="absolute right-2 bottom-0 left-2 h-[3px] rounded-t-[3px]"
+                    style={{ background: tab === t.key ? "var(--fire)" : "transparent" }}
+                  />
                 </button>
               ))}
               <button
                 type="button"
                 onClick={() => actions.openRule(null)}
-                className="disp ml-2 cursor-pointer rounded-[10px] border border-line bg-s1 px-4 py-[9px] text-[17px] leading-none font-bold tracking-[0.04em] text-ink"
+                className="flex h-[46px] cursor-pointer items-center justify-center border-0 bg-transparent p-0"
               >
-                Rules
+                <span className="disp rounded-full border border-line bg-s1 px-2.5 py-1.5 text-[15px] leading-none font-bold tracking-[0.04em] text-ink">
+                  Rules
+                </span>
               </button>
             </nav>
-            <button
-              type="button"
-              onClick={toggleTheme}
-              aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
-              title="Switch light / dark"
-              className="flex size-10 flex-none cursor-pointer items-center justify-center rounded-full border border-line bg-s1"
-            >
-              <div
-                className="size-4 rounded-full border-2 border-ink"
-                style={{ background: "linear-gradient(90deg,var(--ink) 50%,transparent 50%)" }}
-              />
-            </button>
-          </div>
-          <nav aria-label="Sections" className="relative grid grid-cols-[1.3fr_1fr_1fr_1fr_1fr] px-1.5 wide:hidden">
-            {TABS.map((t) => (
-              <button
-                key={t.key}
-                type="button"
-                onClick={() => go(t.key)}
-                aria-current={tab === t.key ? "page" : undefined}
-                className={`disp relative h-[46px] cursor-pointer border-0 bg-transparent p-0 text-[15px] leading-none font-bold tracking-[0.04em] ${
-                  tab === t.key ? "text-ink" : "text-mut"
-                }`}
-              >
-                {t.label}
-                <div
-                  className="absolute right-2 bottom-0 left-2 h-[3px] rounded-t-[3px]"
-                  style={{ background: tab === t.key ? "var(--fire)" : "transparent" }}
-                />
-              </button>
-            ))}
-            <button
-              type="button"
-              onClick={() => actions.openRule(null)}
-              className="flex h-[46px] cursor-pointer items-center justify-center border-0 bg-transparent p-0"
-            >
-              <span className="disp rounded-full border border-line bg-s1 px-2.5 py-1.5 text-[15px] leading-none font-bold tracking-[0.04em] text-ink">
-                Rules
-              </span>
-            </button>
-          </nav>
-        </header>
+          </header>
 
-        {pending && (
-          <div className="mx-auto max-w-[1280px] px-4 pt-3.5">
-            <div role="status" className="flex items-center gap-3 rounded-[14px] border border-dashed border-amb bg-s1 px-3.5 py-3">
-              <div className="size-2.5 flex-none rounded-full bg-amb" style={{ boxShadow: "0 0 0 4px var(--firesoft)" }} />
-              <div>
-                <div className="font-semibold">Episode {m.pendingEp} results not posted yet</div>
-                <div className="text-[13px] text-mut">Standings show Episode {m.lastEp}. Scores update Thursday.</div>
+          {pending && (
+            <div className="mx-auto max-w-[1280px] px-4 pt-3.5">
+              <div role="status" className="flex items-center gap-3 rounded-[14px] border border-dashed border-amb bg-s1 px-3.5 py-3">
+                <div className="size-2.5 flex-none rounded-full bg-amb" style={{ boxShadow: "0 0 0 4px var(--firesoft)" }} />
+                <div>
+                  <div className="font-semibold">Episode {m.pendingEp} results not posted yet</div>
+                  <div className="text-[13px] text-mut">Standings show Episode {m.lastEp}. Scores update Thursday.</div>
+                </div>
               </div>
             </div>
-          </div>
+          )}
+
+          <main className="mx-auto max-w-[1280px] px-4 pt-[18px] pb-8">
+            {tab === "standings" && <Standings />}
+            {tab === "teams" && <Teams />}
+            {tab === "weekly" && <Weekly />}
+            {tab === "draft" && <Draft />}
+          </main>
+        </div>
+
+        {cast && m.castById[cast] && <CastawaySheet c={m.castById[cast]} onClose={() => setCast(null)} />}
+        {rulesOpen && (
+          <RulesSheet
+            rule={rule}
+            onClose={() => {
+              setRulesOpen(false);
+              setRule(null);
+            }}
+          />
         )}
-
-        <main className="mx-auto max-w-[1280px] px-4 pt-[18px] pb-8">
-          {tab === "standings" && <Standings />}
-          {tab === "teams" && <Teams />}
-          {tab === "weekly" && <Weekly />}
-          {tab === "draft" && <Draft />}
-        </main>
-      </div>
-
-      {cast && m.castById[cast] && <CastawaySheet c={m.castById[cast]} onClose={() => setCast(null)} />}
-      {rulesOpen && (
-        <RulesSheet
-          rule={rule}
-          onClose={() => {
-            setRulesOpen(false);
-            setRule(null);
-          }}
-        />
-      )}
+        {photo && <PhotoViewer photo={photo} onClose={() => setPhoto(null)} />}
+      </PhotoZoom.Provider>
     </Ctx.Provider>
   );
 }

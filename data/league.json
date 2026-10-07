@@ -20,43 +20,57 @@
       "id": "taylor",
       "name": "Taylor",
       "hue": 25,
-      "draftOrder": 1
+      "draftOrder": 1,
+      "photoUrl": "/avatars/taylor.jpg",
+      "photoLargeUrl": "/avatars/full/taylor.jpg"
     },
     {
       "id": "clarissa",
       "name": "Clarissa",
       "hue": 300,
-      "draftOrder": 2
+      "draftOrder": 2,
+      "photoUrl": "/avatars/clarissa.jpg",
+      "photoLargeUrl": "/avatars/full/clarissa.jpg"
     },
     {
       "id": "marley",
       "name": "Marley",
       "hue": 240,
-      "draftOrder": 3
+      "draftOrder": 3,
+      "photoUrl": "/avatars/marley.jpg",
+      "photoLargeUrl": "/avatars/full/marley.jpg"
     },
     {
       "id": "alex",
       "name": "Alex",
       "hue": 140,
-      "draftOrder": 4
+      "draftOrder": 4,
+      "photoUrl": "/avatars/alex.jpg",
+      "photoLargeUrl": "/avatars/full/alex.jpg"
     },
     {
       "id": "jill",
       "name": "Jill",
       "hue": 355,
-      "draftOrder": 5
+      "draftOrder": 5,
+      "photoUrl": "/avatars/jill.jpg",
+      "photoLargeUrl": "/avatars/full/jill.jpg"
     },
     {
       "id": "cody",
       "name": "Cody",
       "hue": 90,
-      "draftOrder": 6
+      "draftOrder": 6,
+      "photoUrl": "/avatars/cody.jpg",
+      "photoLargeUrl": "/avatars/full/cody.jpg"
     },
     {
       "id": "mauricio",
       "name": "Mauricio",
       "hue": 190,
-      "draftOrder": 7
+      "draftOrder": 7,
+      "photoUrl": "/avatars/mauricio.jpg",
+      "photoLargeUrl": "/avatars/full/mauricio.jpg"
     }
   ],
   "castaways": [
@@ -500,8 +514,260 @@
   "episodes": [
     {
       "number": 1,
-      "note": "Points start with Episode 2.",
-      "events": []
+      "note": "Scored by hand from the broadcast; Global TV's tracker skips Episode 1.",
+      "statedTotals": {
+        "aaliyah": 20,
+        "alexis": 6,
+        "ana": 6,
+        "brady": 1,
+        "carter": 6,
+        "cristian": 6,
+        "devin": 1,
+        "eric": 21,
+        "jelly": 1,
+        "jenna": 11,
+        "kilby": 1,
+        "kristin": 6,
+        "lewis": 11,
+        "linnea": 6,
+        "maggie": 1,
+        "mike": 1,
+        "ori": 6,
+        "patt": 6,
+        "rob": 16,
+        "sharonda": 6,
+        "thienan": 1
+      },
+      "events": [
+        {
+          "castawayId": "aaliyah",
+          "ruleId": "shot-dark",
+          "label": "Played Shot in the Dark",
+          "points": 10
+        },
+        {
+          "castawayId": "aaliyah",
+          "ruleId": "blindside",
+          "label": "Torch Snuffed Due to Blindside",
+          "points": 10
+        },
+        {
+          "castawayId": "alexis",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "alexis",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "ana",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "ana",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "brady",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "carter",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "carter",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "cristian",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "cristian",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "devin",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "eric",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "eric",
+          "ruleId": "seafood",
+          "label": "Caught Seafood",
+          "points": 10
+        },
+        {
+          "castawayId": "eric",
+          "ruleId": "cries",
+          "label": "Cried on Camera",
+          "points": 5
+        },
+        {
+          "castawayId": "eric",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "jelly",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "jenna",
+          "ruleId": "shot-dark",
+          "label": "Played Shot in the Dark",
+          "points": 10
+        },
+        {
+          "castawayId": "jenna",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "kilby",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "kristin",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "kristin",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "lewis",
+          "ruleId": "journey",
+          "label": "Sent to Exile Island",
+          "points": 10
+        },
+        {
+          "castawayId": "lewis",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "linnea",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "linnea",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "maggie",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "mike",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "ori",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "ori",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "patt",
+          "ruleId": "wardrobe",
+          "label": "Wardrobe Malfunction",
+          "points": 5
+        },
+        {
+          "castawayId": "patt",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "rob",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "rob",
+          "ruleId": "find-idol",
+          "label": "Found an Idol",
+          "points": 10
+        },
+        {
+          "castawayId": "rob",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "sharonda",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "sharonda",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "thienan",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        }
+      ]
     },
     {
       "number": 2,

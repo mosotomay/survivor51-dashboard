@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Barlow_Condensed, DM_Sans } from "next/font/google";
+import { Barlow_Condensed, DM_Sans, Poppins } from "next/font/google";
 import { asset } from "@/lib/model";
 import "./globals.css";
 
@@ -7,6 +7,13 @@ const barlow = Barlow_Condensed({
   variable: "--font-barlow",
   subsets: ["latin"],
   weight: ["500", "600", "700", "800"],
+});
+
+// Numbers use Poppins (the same face the Sleeper app uses for scores); it reads more clearly than the condensed display face.
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
 const dmSans = DM_Sans({
@@ -20,6 +27,7 @@ export const metadata: Metadata = {
   title: "Survivor 51 Fantasy League",
   description: "Standings, teams, weekly scores, draft board and rules for our Survivor 51 fantasy league.",
   robots: { index: false, follow: false },
+  appleWebApp: { title: "Survivor 51" },
   openGraph: {
     title: "Survivor 51 Fantasy League",
     description: "Who's winning? Standings update every Thursday.",
@@ -36,7 +44,7 @@ const themeScript = `try{var t=localStorage.getItem('s51-theme');if(t==='light'|
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" data-theme="dark" className={`${barlow.variable} ${dmSans.variable}`} suppressHydrationWarning>
+    <html lang="en" data-theme="dark" className={`${barlow.variable} ${dmSans.variable} ${poppins.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

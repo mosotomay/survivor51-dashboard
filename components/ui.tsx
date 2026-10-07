@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type CSSProperties, type ReactNode } from "react";
+import { createContext, useContext, useState, type CSSProperties, type KeyboardEvent, type MouseEvent, type ReactNode } from "react";
 import type { ScoringEvent } from "@/lib/types";
 import { TRIBES, asset, friendColor, tierColor, type CastawayM, type FriendM } from "@/lib/model";
 
@@ -143,23 +143,77 @@ export function CastPhoto({
   );
 }
 
-export function FriendAvatar({ f, size, font, ring }: { f: Pick<FriendM, "name" | "hue">; size: number; font: number; ring?: string }) {
+const BADGE = { crown: "👑", poop: "💩" } as const;
+
+type ZoomFriend = Pick<FriendM, "name" | "photoUrl" | "photoLargeUrl">;
+/** Opens the full-size photo viewer; provided by LeagueApp. */
+export const PhotoZoom = createContext<((f: ZoomFriend) => void) | null>(null);
+
+/** Friend's profile picture (initial fallback) with a crown for first place and poop for last. */
+export function FriendAvatar({
+  f,
+  size,
+  font,
+  ring,
+  zoomable = false,
+}: {
+  f: Pick<FriendM, "name" | "hue" | "photoUrl" | "photoLargeUrl" | "badge">;
+  size: number;
+  font: number;
+  ring?: string;
+  /** Tapping opens the full-size photo (Teams tab only). */
+  zoomable?: boolean;
+}) {
+  const zoom = useContext(PhotoZoom);
+  // 15px badge at -8/-7 on a 42px photo, scaled for other sizes.
+  const badge = Math.max(12, Math.round(size * 0.36));
+  const canZoom = !!(zoomable && zoom && f.photoUrl);
+  const open = (e: MouseEvent | KeyboardEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    zoom?.(f);
+  };
   return (
-    <div
-      aria-hidden
-      className="disp flex flex-none items-center justify-center rounded-full font-extrabold"
-      style={{
-        width: size,
-        height: size,
-        fontSize: font,
-        lineHeight: 1,
-        background: friendColor(f.hue),
-        color: "#15120f",
-        boxShadow: ring ? `0 0 0 3px var(--s1),0 0 0 5px ${ring}` : undefined,
-      }}
+    <span
+      aria-hidden={canZoom ? undefined : true}
+      role={canZoom ? "button" : undefined}
+      tabIndex={canZoom ? 0 : undefined}
+      aria-label={canZoom ? `View ${f.name}'s photo` : undefined}
+      onClick={canZoom ? open : undefined}
+      onKeyDown={canZoom ? (e) => (e.key === "Enter" || e.key === " ") && open(e) : undefined}
+      className={`relative block flex-none rounded-full ${canZoom ? "cursor-zoom-in" : ""}`}
+      style={{ width: size, height: size }}
     >
-      {f.name[0]}
-    </div>
+      <span
+        className="disp relative flex items-center justify-center overflow-hidden rounded-full font-extrabold"
+        style={{
+          width: size,
+          height: size,
+          fontSize: font,
+          lineHeight: 1,
+          background: friendColor(f.hue),
+          color: "#15120f",
+          boxShadow: ring ? `0 0 0 3px var(--s1),0 0 0 5px ${ring}` : undefined,
+        }}
+      >
+        {f.name[0]}
+        <Photo src={f.photoUrl} alt="" grey={false} />
+      </span>
+      {f.badge && (
+        <span
+          className="absolute leading-none"
+          style={{
+            top: -Math.round(size * 0.19),
+            right: -Math.round(size * 0.17),
+            fontSize: badge,
+            transform: f.badge === "crown" ? "rotate(18deg)" : undefined,
+            filter: "drop-shadow(0 1px 1.5px rgba(0,0,0,0.55))",
+          }}
+        >
+          {BADGE[f.badge]}
+        </span>
+      )}
+    </span>
   );
 }
 
@@ -176,9 +230,9 @@ export function EventChip({
   surface?: string;
 }) {
   const s = {
-    sm: { pad: "4px 4px 4px 10px", font: 12.5, badge: 14, badgePad: "3px 6px", gap: 7 },
-    md: { pad: "6px 6px 6px 11px", font: 13, badge: 15, badgePad: "4px 7px", gap: 8 },
-    lg: { pad: "4px 5px 4px 12px", font: 13.5, badge: 15, badgePad: "5px 8px", gap: 8 },
+    sm: { pad: "4px 4px 4px 10px", font: 12.5, badge: 12, badgePad: "3px 6px", gap: 7 },
+    md: { pad: "6px 6px 6px 11px", font: 13, badge: 13, badgePad: "4px 7px", gap: 8 },
+    lg: { pad: "4px 5px 4px 12px", font: 13.5, badge: 13, badgePad: "5px 8px", gap: 8 },
   }[size];
   return (
     <button
@@ -190,7 +244,7 @@ export function EventChip({
     >
       <span>{ev.label}</span>
       <span
-        className="font-display rounded-full font-bold tabular-nums"
+        className="num rounded-full font-bold"
         style={{
           fontSize: s.badge,
           lineHeight: 1,
