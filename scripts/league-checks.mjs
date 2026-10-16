@@ -31,7 +31,7 @@ export function validateLeague(d) {
 
   for (const c of d.castaways) {
     if (!friendIds.has(c.draftedBy)) err(`${c.id}: drafted by unknown friend "${c.draftedBy}"`);
-    if (!["Toka", "Savu"].includes(c.tribe)) err(`${c.id}: unknown tribe "${c.tribe}"`);
+    if (!["Toka", "Savu", "Dina"].includes(c.tribe)) err(`${c.id}: unknown tribe "${c.tribe}"`);
   }
   const perFriend = d.friends.map((f) => d.castaways.filter((c) => c.draftedBy === f.id).length);
   if (new Set(perFriend).size > 1) err(`Friends have different team sizes: ${perFriend.join(", ")}`);

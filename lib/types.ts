@@ -1,4 +1,4 @@
-export type Tribe = "Toka" | "Savu";
+export type Tribe = "Toka" | "Savu" | "Dina";
 
 export type Friend = { id: string; name: string; hue: number; draftOrder: number; photoUrl?: string; photoLargeUrl?: string };
 

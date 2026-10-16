@@ -147,4 +147,5 @@ export const friendLine = (hue: number, dark: boolean) => (dark ? `oklch(0.76 0.
 export const TRIBES = {
   Toka: { bg: "#e3b02a", ink: "#1d1405", text: "var(--tokaT)" },
   Savu: { bg: "#7c55c7", ink: "#ffffff", text: "var(--savuT)" },
+  Dina: { bg: "#d0343f", ink: "#ffffff", text: "var(--dinaT)" },
 } as const;

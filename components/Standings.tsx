@@ -77,14 +77,12 @@ export default function Standings() {
               </div>
               Voted out
             </div>
-            <div className="flex items-center gap-1.5">
-              <div className="size-2.5 rounded-full bg-[#e3b02a]" />
-              Toka
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="size-2.5 rounded-full bg-[#7c55c7]" />
-              Savu
-            </div>
+            {(Object.keys(TRIBES) as (keyof typeof TRIBES)[]).map((name) => (
+              <div key={name} className="flex items-center gap-1.5">
+                <div className="size-2.5 rounded-full" style={{ background: TRIBES[name].bg }} />
+                {name}
+              </div>
+            ))}
           </div>
         </div>
       </section>
