@@ -220,7 +220,14 @@ function buildEpisode(d, found, extraction) {
     if (!id || seen.has(id)) continue;
     seen.add(id);
     if (!(id in statedTotals)) statedTotals[id] = c.total; // alt text missing: fall back to printed total
-    else if (statedTotals[id] !== c.total) problems.push(`${c.name}: image total ${c.total} vs page text ${statedTotals[id]}`);
+    else if (statedTotals[id] !== c.total) {
+      // Page text and image disagree: trust the image when its own line items add up to its printed total.
+      const sum = c.events.reduce((a, ev) => a + ev.points, 0);
+      if (sum === c.total) {
+        console.warn(`WARNING: ${c.name}: page text says ${statedTotals[id]} but the image total ${c.total} matches its breakdown (${sum}); using the image.`);
+        statedTotals[id] = c.total;
+      } else problems.push(`${c.name}: image total ${c.total} vs page text ${statedTotals[id]}; breakdown sums to ${sum}`);
+    }
     for (const ev of c.events) events.push({ castawayId: id, ruleId: ev.rule_id, label: ev.label.trim(), points: ev.points });
     if (c.left_game) leftGame.push(id);
   }
