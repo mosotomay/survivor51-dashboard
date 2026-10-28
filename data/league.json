@@ -11,6 +11,10 @@
     ],
     "pendingEpisode": null,
     "merged": false,
+    "stakes": {
+      "last": "Lowest scorer dresses up in a costume for a night out with the crew.",
+      "first": "League winner picks the costume."
+    },
     "decisions": [
       "Each event counts once per castaway per week.",
       "MVP = each friend's first draft pick.",

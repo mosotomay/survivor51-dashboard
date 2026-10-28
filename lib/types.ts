@@ -42,6 +42,8 @@ export type LeagueData = {
     postedEpisodes: number[];
     pendingEpisode: number | null;
     merged: boolean;
+    /** Season punishment, featured at the top of League decisions. */
+    stakes?: { last: string; first: string };
     decisions: string[];
   };
   friends: Friend[];

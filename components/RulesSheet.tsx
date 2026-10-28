@@ -13,6 +13,7 @@ const card = "rounded-[14px] border border-line bg-s1";
 export default function RulesSheet({ rule, onClose }: { rule: string | null; onClose: () => void }) {
   const { m } = useLeague();
   const R = m.data.rules;
+  const stakes = m.data.league.stakes;
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -145,6 +146,24 @@ export default function RulesSheet({ rule, onClose }: { rule: string | null; onC
         <section>
           <h3 className={sectionLabel}>League decisions</h3>
           <div className="flex flex-col gap-2">
+            {stakes && (
+              <div
+                className="rounded-[14px] border-2 px-3.5 py-3.5"
+                style={{ borderColor: "var(--ambT)", background: "linear-gradient(135deg,var(--firesoft),var(--s1))" }}
+              >
+                <div className="disp mb-2.5 text-[20px] leading-none font-extrabold tracking-[0.04em] text-amb">The stakes</div>
+                <div className="flex flex-col gap-2 text-[15px] leading-snug">
+                  <div className="flex items-start gap-2.5">
+                    <span aria-hidden className="text-[20px] leading-none">💩</span>
+                    <span className="font-semibold">{stakes.last}</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <span aria-hidden className="text-[20px] leading-none">👑</span>
+                    <span className="font-semibold">{stakes.first}</span>
+                  </div>
+                </div>
+              </div>
+            )}
             {m.data.league.decisions.map((d) => (
               <div key={d} className={`${card} px-3.5 py-3 text-[14px]`}>
                 {d}
