@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ruleTarget } from "@/lib/model";
 import { useLeague } from "./LeagueApp";
 import { CastAvatar, EventChip, FriendAvatar, PageHead, microLabel } from "./ui";
@@ -10,12 +10,33 @@ type Sel = "season" | number;
 export default function Weekly() {
   const { m, openTeam } = useLeague();
   const [sel, setSel] = useState<Sel>("season");
+  const scrollRef = useRef<HTMLDivElement>(null);
   const pending = m.pendingEp != null;
   const eps = pending ? [...m.posted, m.pendingEp as number] : m.posted;
   const epMax: Record<number, number> = {};
   m.posted.forEach((e) => (epMax[e] = Math.max(...m.friends.map((f) => f.epPts[e]))));
-  const cols = `minmax(128px,1.5fr) repeat(${eps.length},minmax(52px,1fr)) minmax(56px,0.8fr)`;
+  const cols = `max-content repeat(${eps.length},minmax(52px,1fr)) minmax(56px,0.8fr)`;
   const isPendingSel = sel !== "season" && sel > m.lastEp;
+
+  // Open the season table scrolled to the far right so the latest episode and total are in view,
+  // and keep it there through font/photo layout shifts until the user scrolls it themselves.
+  useEffect(() => {
+    const box = scrollRef.current;
+    const table = box?.firstElementChild;
+    if (sel !== "season" || !box || !table) return;
+    const pin = () => (box.scrollLeft = box.scrollWidth);
+    pin();
+    const ro = new ResizeObserver(pin);
+    ro.observe(table);
+    const stop = () => ro.disconnect();
+    box.addEventListener("pointerdown", stop, { once: true });
+    box.addEventListener("wheel", stop, { once: true, passive: true });
+    return () => {
+      stop();
+      box.removeEventListener("pointerdown", stop);
+      box.removeEventListener("wheel", stop);
+    };
+  }, [sel]);
 
   const chips: { key: Sel; label: string; pending?: boolean }[] = [
     { key: "season", label: "Season" },
@@ -54,10 +75,12 @@ export default function Weekly() {
 
       {sel === "season" && (
         <>
-          <div className="overflow-x-auto rounded-[18px] border border-line bg-s1 px-2 pt-1.5 pb-2">
-            <div role="table" aria-label="Points per friend per episode">
-              <div role="row" className={`grid items-center gap-1 px-1.5 py-2 ${microLabel}`} style={{ gridTemplateColumns: cols }}>
-                <div role="columnheader">Player</div>
+          <div ref={scrollRef} className="overflow-x-auto rounded-[18px] border border-line bg-s1 pt-1.5 pb-2">
+            <div role="table" aria-label="Points per friend per episode" className="grid gap-x-1" style={{ gridTemplateColumns: cols }}>
+              <div role="row" className={`col-span-full grid grid-cols-subgrid items-center py-2 pr-3.5 ${microLabel}`}>
+                <div role="columnheader" className="sticky left-0 z-[1] -my-2 -mr-1 self-stretch bg-s1 py-2 pr-3 pl-3.5 shadow-[1px_0_0_var(--line)]">
+                  Player
+                </div>
                 {eps.map((e) => (
                   <div role="columnheader" key={e} className="text-center">
                     <button
@@ -77,18 +100,17 @@ export default function Weekly() {
                 <div
                   role="row"
                   key={f.id}
-                  className="grid items-center gap-1 border-t border-line px-1.5 py-1"
-                  style={{ gridTemplateColumns: cols }}
+                  className="col-span-full grid grid-cols-subgrid items-center border-t border-line py-1 pr-3.5"
                 >
-                  <div role="rowheader" className="min-w-0">
+                  <div role="rowheader" className="sticky left-0 z-[1] -my-1 -mr-1 self-stretch bg-s1 py-1 pr-3 pl-3.5 shadow-[1px_0_0_var(--line)]">
                     <button
                       type="button"
                       onClick={() => openTeam(f.id)}
                       aria-label={`${f.name}. Open team`}
-                      className="flex w-full min-w-0 cursor-pointer items-center gap-2 border-0 bg-transparent py-1.5 pl-0 text-left text-ink"
+                      className="flex h-full w-full cursor-pointer items-center gap-2 border-0 bg-transparent py-1.5 pl-0 text-left text-ink"
                     >
                       <FriendAvatar f={f} size={28} font={14} />
-                      <span className="disp truncate text-[18px] leading-none font-bold">{f.name}</span>
+                      <span className="disp text-[18px] leading-none font-bold whitespace-nowrap">{f.name}</span>
                     </button>
                   </div>
                   {eps.map((e) => {

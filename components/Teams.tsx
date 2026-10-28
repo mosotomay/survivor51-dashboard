@@ -56,10 +56,10 @@ export default function Teams() {
                           {[c.age, c.occupation].filter(Boolean).join(" · ")}
                         </div>
                       </div>
-                      <div className="text-[11.5px] font-bold" style={{ color: out ? "var(--embT)" : TRIBES[c.tribe].text }}>
+                      <div className="mt-auto text-[11.5px] font-bold" style={{ color: out ? "var(--embT)" : TRIBES[c.tribe].text }}>
                         {out ? `Out · Ep ${c.votedOutEp}` : c.tribe}
                       </div>
-                      <div className="mt-auto flex items-baseline gap-1 rounded-[10px] bg-s2 px-2 py-1.5">
+                      <div className="flex items-baseline gap-1 rounded-[10px] bg-s2 px-2 py-1.5">
                         <span className="num text-[19px] leading-none font-semibold">{c.total}</span>
                         <span className="font-display text-[12px] leading-none font-bold tracking-[0.08em] text-mut">PTS</span>
                       </div>

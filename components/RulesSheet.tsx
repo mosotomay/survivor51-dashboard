@@ -25,6 +25,10 @@ export default function RulesSheet({ rule, onClose }: { rule: string | null; onC
     return () => cancelAnimationFrame(raf);
   }, [rule]);
 
+  // How often each rule has been hit across posted episodes.
+  const hits: Record<string, number> = {};
+  m.cast.forEach((c) => m.posted.forEach((e) => c.events[e].forEach((ev) => (hits[ev.ruleId] = (hits[ev.ruleId] ?? 0) + 1))));
+
   const ring = (id: string) => (rule === id ? { outline: "2px solid var(--ambT)" } : undefined);
 
   return (
@@ -32,7 +36,7 @@ export default function RulesSheet({ rule, onClose }: { rule: string | null; onC
       <div className="sticky top-0 z-[2] flex items-center gap-3 border-b border-line bg-bg px-[18px] py-3">
         <div className="flex-1">
           <h2 className="disp m-0 text-[28px] leading-none font-extrabold">Scoring rules</h2>
-          <div className="mt-1 text-[12.5px] text-mut">Each event counts once per castaway per week.</div>
+          <div className="mt-1 text-[12.5px] text-mut">Each event counts once per castaway per week. Numbers show times hit this season.</div>
         </div>
         <button
           type="button"
@@ -62,30 +66,48 @@ export default function RulesSheet({ rule, onClose }: { rule: string | null; onC
 
         {R.tiers.map((t) => {
           const key = "tier-" + t.points;
+          const color = tierColor(t.points);
+          const top = Math.max(0, ...t.rules.map((r) => hits[r.id] ?? 0));
+          // Most frequent first; ties keep the rulebook order.
+          const rules = t.rules.map((r, i) => ({ ...r, i, n: hits[r.id] ?? 0 })).sort((a, b) => b.n - a.n || a.i - b.i);
           return (
             <section key={key} data-rule={key} className="rounded-2xl" style={{ ...ring(key), outlineOffset: 6 }}>
               <div className="mb-2.5 flex items-baseline gap-2.5">
-                <div className="num text-[27px] leading-none font-bold" style={{ color: tierColor(t.points) }}>
+                <div className="num text-[27px] leading-none font-bold" style={{ color }}>
                   +{t.points}
                 </div>
                 <h3 className="disp m-0 text-[15px] leading-none font-bold tracking-[0.08em]">{t.points}-point events</h3>
-                <div className="ml-auto text-[12px] text-mut">{t.rules.length} events</div>
+                <div className="ml-auto text-[12px] text-mut">
+                  {t.rules.length} events · hit {t.rules.reduce((s, r) => s + (hits[r.id] ?? 0), 0)}×
+                </div>
               </div>
               <ul className="m-0 flex list-none flex-wrap gap-1.5 p-0">
-                {t.rules.map((r) => {
+                {rules.map((r) => {
                   const on = rule === r.id;
+                  const most = top > 0 && r.n === top;
                   return (
                     <li
                       key={r.id}
                       data-rule={r.id}
                       aria-current={on ? "true" : undefined}
-                      className="rounded-full px-[11px] py-[7px] text-[13.5px]"
+                      aria-label={`${r.label}, ${r.n} ${r.n === 1 ? "time" : "times"} this season${most ? ", most common" : ""}`}
+                      className="flex items-center gap-2 rounded-full py-[7px] pr-[7px] pl-[11px] text-[13.5px]"
                       style={{
-                        border: on ? "2px solid var(--ambT)" : "1px solid var(--line)",
-                        background: on ? "var(--firesoft)" : "var(--s1)",
+                        border: on ? "2px solid var(--ambT)" : most ? `1px solid color-mix(in srgb, ${color} 45%, transparent)` : "1px solid var(--line)",
+                        background: on ? "var(--firesoft)" : most ? `color-mix(in srgb, ${color} 16%, var(--s1))` : "var(--s1)",
                       }}
                     >
                       {r.label}
+                      <span
+                        aria-hidden
+                        className="num min-w-[22px] rounded-full px-1.5 py-0.5 text-center text-[12px] leading-none font-semibold"
+                        style={{
+                          background: most ? color : "var(--s2)",
+                          color: most ? "var(--bg)" : r.n ? "var(--ink)" : "var(--mut)",
+                        }}
+                      >
+                        {r.n}
+                      </span>
                     </li>
                   );
                 })}
