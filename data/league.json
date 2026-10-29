@@ -1,13 +1,14 @@
 {
   "league": {
     "name": "Survivor 51 Fantasy League",
-    "updatedLabel": "Updated through Episode 5 · Thu Oct 22",
+    "updatedLabel": "Updated through Episode 6 · Thu Oct 29",
     "postedEpisodes": [
       1,
       2,
       3,
       4,
-      5
+      5,
+      6
     ],
     "pendingEpisode": null,
     "merged": false,
@@ -1962,6 +1963,226 @@
           "ruleId": "unanimous",
           "label": "Voted Out Unanimously",
           "points": 10
+        },
+        {
+          "castawayId": "eric",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "sourceImage": "https://assets.globaltv.com/wp-content/uploads/2026/10/29133258/survivor-51-episode-6-points.jpg",
+      "statedTotals": {
+        "thienan": 6,
+        "brady": 6,
+        "carter": 6,
+        "cristian": 6,
+        "devin": 6,
+        "eric": 6,
+        "jelly": 6,
+        "kilby": 6,
+        "kristin": 26,
+        "lewis": 6,
+        "maggie": 6,
+        "mike": 11,
+        "ori": 25,
+        "sharonda": 16
+      },
+      "events": [
+        {
+          "castawayId": "thienan",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "thienan",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "kristin",
+          "ruleId": "journey",
+          "label": "Went on a Journey",
+          "points": 10
+        },
+        {
+          "castawayId": "kristin",
+          "ruleId": "find-idol",
+          "label": "Got an Idol",
+          "points": 10
+        },
+        {
+          "castawayId": "kristin",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "kristin",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "cristian",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "cristian",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "jelly",
+          "ruleId": "cries",
+          "label": "Cried on Camera",
+          "points": 5
+        },
+        {
+          "castawayId": "jelly",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "sharonda",
+          "ruleId": "journey",
+          "label": "Went on a Journey",
+          "points": 10
+        },
+        {
+          "castawayId": "sharonda",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "sharonda",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "kilby",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "kilby",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "maggie",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "maggie",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "mike",
+          "ruleId": "curse",
+          "label": "Said a Curse Word",
+          "points": 5
+        },
+        {
+          "castawayId": "mike",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "mike",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "devin",
+          "ruleId": "cries",
+          "label": "Cried on Camera",
+          "points": 5
+        },
+        {
+          "castawayId": "devin",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "ori",
+          "ruleId": "journey",
+          "label": "Went on a Journey",
+          "points": 10
+        },
+        {
+          "castawayId": "ori",
+          "ruleId": "cries",
+          "label": "Cried on Camera",
+          "points": 5
+        },
+        {
+          "castawayId": "ori",
+          "ruleId": "shot-dark",
+          "label": "Played His Shot in the Dark",
+          "points": 10
+        },
+        {
+          "castawayId": "lewis",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "lewis",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "brady",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "brady",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "carter",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
+        },
+        {
+          "castawayId": "carter",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 1
+        },
+        {
+          "castawayId": "eric",
+          "ruleId": "group-win",
+          "label": "Won Group Immunity",
+          "points": 5
         },
         {
           "castawayId": "eric",
