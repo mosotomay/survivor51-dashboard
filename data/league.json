@@ -213,7 +213,8 @@
       "occupation": "Personal trainer",
       "pick": 11,
       "draftedBy": "alex",
-      "photoUrl": "/headshots/ori.jpg"
+      "photoUrl": "/headshots/ori.jpg",
+      "votedOutEp": 6
     },
     {
       "id": "rob",
