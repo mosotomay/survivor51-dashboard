@@ -1,14 +1,15 @@
 {
   "league": {
     "name": "Survivor 51 Fantasy League",
-    "updatedLabel": "Updated through Episode 6 · Thu Oct 29",
+    "updatedLabel": "Updated through Episode 7 · Thu Nov 5",
     "postedEpisodes": [
       1,
       2,
       3,
       4,
       5,
-      6
+      6,
+      7
     ],
     "pendingEpisode": null,
     "merged": false,
@@ -251,7 +252,8 @@
       "occupation": "Professional wrestler",
       "pick": 14,
       "draftedBy": "taylor",
-      "photoUrl": "/headshots/brady.jpg"
+      "photoUrl": "/headshots/brady.jpg",
+      "votedOutEp": 7
     },
     {
       "id": "carter",
@@ -2190,6 +2192,195 @@
           "ruleId": "survived",
           "label": "Survived the Week",
           "points": 1
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "sourceImage": "https://assets.globaltv.com/wp-content/uploads/2026/10/05153503/survivor-51-episode-7-points.jpg",
+      "statedTotals": {
+        "thienan": 8,
+        "brady": 20,
+        "carter": 8,
+        "cristian": 3,
+        "devin": 8,
+        "eric": 8,
+        "jelly": 8,
+        "kilby": 8,
+        "kristin": 23,
+        "lewis": 8,
+        "maggie": 8,
+        "mike": 23,
+        "sharonda": 8
+      },
+      "events": [
+        {
+          "castawayId": "thienan",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "thienan",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "kristin",
+          "ruleId": "curse",
+          "label": "Said a Curse Word",
+          "points": 5
+        },
+        {
+          "castawayId": "kristin",
+          "ruleId": "give-idol",
+          "label": "Gave Away Her Idol",
+          "points": 15
+        },
+        {
+          "castawayId": "kristin",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "cristian",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "jelly",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "jelly",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "sharonda",
+          "ruleId": "curse",
+          "label": "Said a Curse Word",
+          "points": 5
+        },
+        {
+          "castawayId": "sharonda",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "kilby",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "kilby",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "maggie",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "maggie",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "mike",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "mike",
+          "ruleId": "ind-immunity",
+          "label": "Won Individual Immunity",
+          "points": 15
+        },
+        {
+          "castawayId": "mike",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "devin",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "devin",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "lewis",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "lewis",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "brady",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "brady",
+          "ruleId": "curse",
+          "label": "Said a Curse Word",
+          "points": 5
+        },
+        {
+          "castawayId": "brady",
+          "ruleId": "blindside",
+          "label": "Torch Snuffed Due to Blindside",
+          "points": 10
+        },
+        {
+          "castawayId": "carter",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "carter",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "eric",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "eric",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
         }
       ]
     }
