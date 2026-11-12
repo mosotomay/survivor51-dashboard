@@ -1,7 +1,7 @@
 {
   "league": {
     "name": "Survivor 51 Fantasy League",
-    "updatedLabel": "Updated through Episode 7 · Thu Nov 5",
+    "updatedLabel": "Updated through Episode 8 · Thu Nov 12",
     "postedEpisodes": [
       1,
       2,
@@ -9,7 +9,8 @@
       4,
       5,
       6,
-      7
+      7,
+      8
     ],
     "pendingEpisode": null,
     "merged": false,
@@ -118,7 +119,8 @@
       "occupation": "Crisis management",
       "pick": 3,
       "draftedBy": "marley",
-      "photoUrl": "/headshots/kristin.jpg"
+      "photoUrl": "/headshots/kristin.jpg",
+      "votedOutEp": 8
     },
     {
       "id": "cristian",
@@ -166,7 +168,8 @@
       "occupation": "Game designer",
       "pick": 7,
       "draftedBy": "mauricio",
-      "photoUrl": "/headshots/kilby.jpg"
+      "photoUrl": "/headshots/kilby.jpg",
+      "votedOutEp": 8
     },
     {
       "id": "maggie",
@@ -2374,6 +2377,194 @@
           "castawayId": "eric",
           "ruleId": "group-win",
           "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "eric",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "sourceImage": "https://assets.globaltv.com/wp-content/uploads/2026/11/12151459/survivor-51-episode-8-points.jpg",
+      "statedTotals": {
+        "thienan": 8,
+        "carter": 8,
+        "cristian": 43,
+        "devin": 3,
+        "eric": 13,
+        "jelly": 28,
+        "kilby": 0,
+        "kristin": 20,
+        "lewis": 23,
+        "maggie": 3,
+        "mike": 3,
+        "sharonda": 23
+      },
+      "events": [
+        {
+          "castawayId": "thienan",
+          "ruleId": "cries",
+          "label": "Cried on Camera",
+          "points": 5
+        },
+        {
+          "castawayId": "thienan",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "kristin",
+          "ruleId": "curse",
+          "label": "Said a Curse Word",
+          "points": 5
+        },
+        {
+          "castawayId": "kristin",
+          "ruleId": "chosen-reward",
+          "label": "Chosen for Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "kristin",
+          "ruleId": "shot-dark",
+          "label": "Played Her 'Shot in the Dark'",
+          "points": 10
+        },
+        {
+          "castawayId": "cristian",
+          "ruleId": "advantage",
+          "label": "Got an Advantage",
+          "points": 5
+        },
+        {
+          "castawayId": "cristian",
+          "ruleId": "journey",
+          "label": "Chosen to Go On a Journey",
+          "points": 10
+        },
+        {
+          "castawayId": "cristian",
+          "ruleId": "shot-dark",
+          "label": "Played His 'Shot in the Dark'",
+          "points": 10
+        },
+        {
+          "castawayId": "cristian",
+          "ruleId": "shot-safe",
+          "label": "Drew a Safe Scroll",
+          "points": 15
+        },
+        {
+          "castawayId": "cristian",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "jelly",
+          "ruleId": "chosen-reward",
+          "label": "Chosen for Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "jelly",
+          "ruleId": "idol-self",
+          "label": "Played an Immunity Idol on Herself",
+          "points": 5
+        },
+        {
+          "castawayId": "jelly",
+          "ruleId": "give-idol",
+          "label": "Played an Immunity Idol for Another Player",
+          "points": 15
+        },
+        {
+          "castawayId": "jelly",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "sharonda",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "sharonda",
+          "ruleId": "ind-immunity",
+          "label": "Won Individual Immunity",
+          "points": 15
+        },
+        {
+          "castawayId": "sharonda",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "maggie",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "mike",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "devin",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "lewis",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "lewis",
+          "ruleId": "ind-immunity",
+          "label": "Won Individual Immunity",
+          "points": 15
+        },
+        {
+          "castawayId": "lewis",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "carter",
+          "ruleId": "advantage",
+          "label": "Got an Advantage",
+          "points": 5
+        },
+        {
+          "castawayId": "carter",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "eric",
+          "ruleId": "curse",
+          "label": "Said a Curse Word",
+          "points": 5
+        },
+        {
+          "castawayId": "eric",
+          "ruleId": "advantage",
+          "label": "Got an Advantage",
           "points": 5
         },
         {
