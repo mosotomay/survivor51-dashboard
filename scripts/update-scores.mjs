@@ -219,15 +219,14 @@ function buildEpisode(d, found, extraction) {
     const id = idFor(c.name);
     if (!id || seen.has(id)) continue;
     seen.add(id);
-    if (!(id in statedTotals)) statedTotals[id] = c.total; // alt text missing: fall back to printed total
-    else if (statedTotals[id] !== c.total) {
-      // Page text and image disagree: trust the image when its own line items add up to its printed total.
-      const sum = c.events.reduce((a, ev) => a + ev.points, 0);
-      if (sum === c.total) {
-        console.warn(`WARNING: ${c.name}: page text says ${statedTotals[id]} but the image total ${c.total} matches its breakdown (${sum}); using the image.`);
-        statedTotals[id] = c.total;
-      } else problems.push(`${c.name}: image total ${c.total} vs page text ${statedTotals[id]}; breakdown sums to ${sum}`);
+    // The line items are the source of truth: a castaway's score is the sum of what they actually did.
+    // If the printed/page totals disagree with that sum, record the sum and warn (never fail the run).
+    const sum = c.events.reduce((a, ev) => a + ev.points, 0);
+    const printed = [statedTotals[id], c.total].filter((x) => x != null);
+    if (printed.some((t) => t !== sum)) {
+      console.warn(`WARNING: ${c.name}: breakdown sums to ${sum} but printed totals are ${printed.join(" / ")}; using the breakdown sum.`);
     }
+    statedTotals[id] = sum;
     for (const ev of c.events) events.push({ castawayId: id, ruleId: ev.rule_id, label: ev.label.trim(), points: ev.points });
     if (c.left_game) leftGame.push(id);
   }

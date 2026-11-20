@@ -1,7 +1,7 @@
 {
   "league": {
     "name": "Survivor 51 Fantasy League",
-    "updatedLabel": "Updated through Episode 8 · Thu Nov 12",
+    "updatedLabel": "Updated through Episode 9 · Fri Nov 20",
     "postedEpisodes": [
       1,
       2,
@@ -10,7 +10,8 @@
       5,
       6,
       7,
-      8
+      8,
+      9
     ],
     "pendingEpisode": null,
     "merged": false,
@@ -243,7 +244,8 @@
       "occupation": "Farmer",
       "pick": 13,
       "draftedBy": "clarissa",
-      "photoUrl": "/headshots/lewis.jpg"
+      "photoUrl": "/headshots/lewis.jpg",
+      "votedOutEp": 9
     },
     {
       "id": "brady",
@@ -2565,6 +2567,132 @@
           "castawayId": "eric",
           "ruleId": "advantage",
           "label": "Got an Advantage",
+          "points": 5
+        },
+        {
+          "castawayId": "eric",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "sourceImage": "https://assets.globaltv.com/wp-content/uploads/2026/11/19154120/survivor-51-episode-9-points.jpg",
+      "statedTotals": {
+        "thienan": 8,
+        "carter": 18,
+        "cristian": 3,
+        "devin": 23,
+        "eric": 8,
+        "jelly": 3,
+        "lewis": 30,
+        "maggie": 3,
+        "mike": 8,
+        "sharonda": 3
+      },
+      "events": [
+        {
+          "castawayId": "thienan",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "thienan",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "cristian",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "jelly",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "sharonda",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "maggie",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "mike",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "mike",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "devin",
+          "ruleId": "make-fake-idol",
+          "label": "Created a Fake Idol",
+          "points": 15
+        },
+        {
+          "castawayId": "devin",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "devin",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "lewis",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "lewis",
+          "ruleId": "coin-chosen",
+          "label": "Chosen to Flip the Million-Dollar Coin",
+          "points": 10
+        },
+        {
+          "castawayId": "lewis",
+          "ruleId": "make-fake-idol",
+          "label": "Created a Fake Idol",
+          "points": 15
+        },
+        {
+          "castawayId": "carter",
+          "ruleId": "ind-immunity",
+          "label": "Won Individual Immunity",
+          "points": 15
+        },
+        {
+          "castawayId": "carter",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "eric",
+          "ruleId": "group-win",
+          "label": "Won Group Reward",
           "points": 5
         },
         {
