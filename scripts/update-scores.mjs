@@ -1,4 +1,4 @@
-// Weekly score updater, run by a scheduled Claude routine every Friday.
+// Weekly score updater, run by a scheduled Claude routine every Thursday.
 //
 // 1. Reads Global TV's Fantasy Tribe page and finds "EPISODE N POINTS" results not yet in
 //    data/league.json. Each castaway's official total comes from the image's alt text.

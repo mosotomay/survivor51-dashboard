@@ -55,14 +55,15 @@ npm run build      # validates data/league.json, then writes the static site to 
 
 ### Weekly update (automatic)
 
-A scheduled **Claude routine** (claude.ai/code/routines) runs every Friday evening:
+A scheduled **Claude routine** (claude.ai/code/routines) runs every Thursday at 6pm Central:
 
 1. `node scripts/update-scores.mjs --list` finds new "EPISODE N POINTS" results on the [Fantasy Tribe page](https://www.globaltv.com/survivor-51-fantasy-tribe/#results) and prints each castaway's official total (from the image's alt text).
 2. `--slices N` cuts the tall results image into readable sections; Claude reads every breakdown line and writes them to a JSON file.
-3. `EXTRACTION_FILE=<file> node scripts/update-scores.mjs --episode N` merges the episode only if every castaway's events add up exactly to the official totals and every name and rule is recognized. Eliminations are recorded.
-4. The routine commits `data/league.json` and pushes; the push redeploys the site.
+3. `EXTRACTION_FILE=<file> node scripts/update-scores.mjs --episode N` merges the episode only if every name and rule is recognized. The line items are the source of truth: each castaway scores the sum of their breakdown lines, and if the printed or page totals disagree, the script records the sum and prints a WARNING instead of failing.
+4. Every run, even with no new scores, Claude looks up who left the game in the latest posted episode (voted out, fire-making, medevac or quit), because the results image doesn't reliably show it. If at least two recaps agree, it sets `votedOutEp` on each person. An existing `votedOutEp` is never overwritten.
+5. If `data/league.json` changed, the routine commits it and pushes; the push redeploys the site.
 
-If anything doesn't check out, nothing is committed and the site keeps last week's data; the routine's run log says why.
+If a name, rule or image still can't be resolved after a few retries, nothing is committed and the site keeps last week's data; the routine's run log says why. If recaps conflict or fewer than two agree, that person stays as is and the run log flags it.
 
 **Fixing data by hand:** edit `data/league.json` and push. `npm run validate` runs the same checks locally. If a name isn't recognized, add it as the castaway's `resultsName`. With an `ANTHROPIC_API_KEY` set, `node scripts/update-scores.mjs` can also read an image through the Claude API itself.
 
