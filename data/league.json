@@ -1,7 +1,7 @@
 {
   "league": {
     "name": "Survivor 51 Fantasy League",
-    "updatedLabel": "Updated through Episode 9 · Fri Nov 20",
+    "updatedLabel": "Updated through Episode 10 · Thu Nov 26",
     "postedEpisodes": [
       1,
       2,
@@ -11,7 +11,8 @@
       6,
       7,
       8,
-      9
+      9,
+      10
     ],
     "pendingEpisode": null,
     "merged": false,
@@ -182,7 +183,8 @@
       "occupation": "Farmer",
       "pick": 8,
       "draftedBy": "mauricio",
-      "photoUrl": "/headshots/maggie.jpg"
+      "photoUrl": "/headshots/maggie.jpg",
+      "votedOutEp": 10
     },
     {
       "id": "mike",
@@ -270,7 +272,8 @@
       "occupation": "Livestock farmer",
       "pick": 15,
       "draftedBy": "taylor",
-      "photoUrl": "/headshots/carter.jpg"
+      "photoUrl": "/headshots/carter.jpg",
+      "votedOutEp": 10
     },
     {
       "id": "alexis",
@@ -2694,6 +2697,131 @@
           "ruleId": "group-win",
           "label": "Won Group Reward",
           "points": 5
+        },
+        {
+          "castawayId": "eric",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "sourceImage": "https://assets.globaltv.com/wp-content/uploads/2026/11/26134128/survivor-51-episode-10-points.jpg",
+      "statedTotals": {
+        "thienan": 8,
+        "carter": 20,
+        "cristian": 28,
+        "devin": 3,
+        "eric": 3,
+        "jelly": 3,
+        "maggie": 15,
+        "mike": 28,
+        "sharonda": 8
+      },
+      "events": [
+        {
+          "castawayId": "thienan",
+          "ruleId": "cries",
+          "label": "Cried on Camera",
+          "points": 5
+        },
+        {
+          "castawayId": "thienan",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "cristian",
+          "ruleId": "chosen-reward",
+          "label": "Chosen for Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "cristian",
+          "ruleId": "ind-immunity",
+          "label": "Won Individual Immunity",
+          "points": 15
+        },
+        {
+          "castawayId": "cristian",
+          "ruleId": "cries",
+          "label": "Cried on Camera",
+          "points": 5
+        },
+        {
+          "castawayId": "cristian",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "jelly",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "sharonda",
+          "ruleId": "chosen-reward",
+          "label": "Chosen for Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "sharonda",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "maggie",
+          "ruleId": "chosen-reward",
+          "label": "Chosen for Reward",
+          "points": 5
+        },
+        {
+          "castawayId": "maggie",
+          "ruleId": "blindside",
+          "label": "Torch Snuffed Due to Blindside",
+          "points": 10
+        },
+        {
+          "castawayId": "mike",
+          "ruleId": "ind-immunity",
+          "label": "Won Individual Immunity",
+          "points": 15
+        },
+        {
+          "castawayId": "mike",
+          "ruleId": "ind-reward",
+          "label": "Won Individual Reward",
+          "points": 10
+        },
+        {
+          "castawayId": "mike",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "devin",
+          "ruleId": "survived",
+          "label": "Survived the Week",
+          "points": 3
+        },
+        {
+          "castawayId": "carter",
+          "ruleId": "blindside",
+          "label": "Torch Snuffed Due to Blindside",
+          "points": 10
+        },
+        {
+          "castawayId": "carter",
+          "ruleId": "out-holding",
+          "label": "Voted Out With an Idol",
+          "points": 10
         },
         {
           "castawayId": "eric",
